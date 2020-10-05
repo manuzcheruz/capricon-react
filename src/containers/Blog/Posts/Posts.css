@@ -1,0 +1,16 @@
+.Large {
+    display: block,
+}
+
+.Small {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .Large {
+        display: none
+    }
+    .Small {
+        display: block;
+    }
+}
