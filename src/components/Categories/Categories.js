@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import {
     Card,
     ListGroup
@@ -7,10 +9,12 @@ import Category from './Category/Category';
 
 
 const categories = (props) => {
+    // console.log(props.cat);
     const cat = props.cat.map(category => {
         return <Category 
                     key={category.id}
-                    title={category.title}/>
+                    title={category.title}
+                    clicked={() => props.onSelectCat(category.id)}/>
     });
     return (
         <Card className="border border-white" style={{height: '700px'}}>
@@ -21,4 +25,10 @@ const categories = (props) => {
     );
 };
 
-export default categories;
+const mapStateToProps = state => {
+    return {
+        cat: state.categories
+    }
+}
+
+export default connect(mapStateToProps)(categories);

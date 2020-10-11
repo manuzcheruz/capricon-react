@@ -1,8 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import './App.css';
-import Posts from './containers/Blog/Posts/Posts';
+import Blog from './containers/Blog/Blog';
 import Layout from './hoc/Layout/Layout';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div>
         <Layout>
-          <Route path="/" exact component={Posts}/>
+          <Blog />
         </Layout>
       </div>
     </BrowserRouter>

@@ -5,7 +5,7 @@ ListGroupItem
 } from 'reactstrap';
 
 const category = (props) => (
-    <ListGroupItem className="border border-white text-center" style={{paddingBottom: '40px'}}>{props.title}</ListGroupItem>
+    <ListGroupItem onClick={props.clicked} className="border border-white text-center" style={{paddingBottom: '40px'}}>{props.title}</ListGroupItem>
 );
 
 export default category;
