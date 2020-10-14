@@ -6,7 +6,7 @@ const initialState = {
     authors: [],
     activePostId: null,
     activePost: null,
-    error: false,
+    error: true,
     activePostError: false
 }
 

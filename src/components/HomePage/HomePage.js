@@ -14,6 +14,9 @@ import Post4 from '../Post/Post4/Post4';
 import Post5 from '../Post/Post5/Post5';
 import Post6 from '../Post/Post6/Post6';
 import Subscribe from '../Subscribe/Subscribe';
+import Spinner from '../UI/Spinner/Spinner';
+import PostSmall1 from '../Post/PostSmall/PostSmall1';
+import './HomePage.css';
 
 const homePage = (props) => {
     
@@ -31,9 +34,10 @@ const homePage = (props) => {
 
     }
 
-    return (
-        <Container fluid={true} style={{width: '95%'}}>
-                <div className="Large">
+    let homePage = props.error ? <h1>Failed to load page!</h1> : <Spinner />
+    if (props.pst) {
+        homePage = <div>
+            <div className="Large">
                     <Row>
                         <Col xs="3">
                             <Categories onSelectCat={onSelectCatHandler}/>
@@ -86,32 +90,114 @@ const homePage = (props) => {
                     </Row>
                 </div>
                 <div className="Small">
-                    <div style={{paddingTop: '10px'}}>
-                        <Card style={{height: '100px', backgroundColor: 'rgb(228, 237, 232)', border: '2px solid rgb(228, 237, 232)'}}>
-                            <CardBody>
-                                <Row>
-                                    <Col xs="4">
-                                        <CardImg style={{borderRadius: '10px', height: '80px'}} width="100%" src="" alt="Card image cap"/>
-                                    </Col>
-                                    <Col xs="8">
-                                        <CardTitle style={{paddingTop: '10px'}}>testing again</CardTitle>
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                        </Card>
+                    {props.author.slice(1,2).map(user => {
+                        return <div>
+                                <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                                    <CardBody>
+                                        <Row>
+                                            <Col xs="6">
+                                                <CardTitle>
+                                                    <h2>Hi, <span className="text-muted">Manuz</span></h2>
+                                                </CardTitle>
+                                                <CardSubtitle>
+                                                    Good Morning.
+                                                </CardSubtitle>
+                                            </Col>
+                                            <Col xs="6">
+                                                <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
+                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={user.profile_picture} alt="Card image cap"/>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </div>
+                    })}
+
+                    <div style={{marginLeft: '20px', marginRight: '20px'}}>
+                        <Row className="text-light">
+                            <Col xs="6">
+                                <h5 className="font-weight-bold">
+                                    Popular
+                                </h5>
+                            </Col>
+                            <Col xs="6">
+                                <small>
+                                    Sun, March 01, 2020
+                                </small>
+                            </Col>
+                        </Row>
                     </div>
-                    <div style={{paddingTop: '20px'}}>
-                        <Card style={{height: '380px', width: '250px', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '15px'}}>
-                            <CardBody>
-                                <CardTitle>Author</CardTitle>
-                                <CardSubtitle>of the month</CardSubtitle>
-                                <CardImg top style={{borderRadius: '10px'}} width="100%" src="" alt="Card image cap"/>
-                                <CardImgOverlay>
-                                    <CardTitle style={{paddingTop: '130px', paddingLeft: '20px'}}>Manuz</CardTitle>
-                                </CardImgOverlay>
-                            </CardBody>
-                        </Card>
+
+                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
+                        {props.pst.slice(0,5).map(post => {
+                            return (
+                                <div>
+                                    <Card inverse key={post.id} style={{marginLeft: '18px', height: '250px', width: '150px', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '15px'}}>
+                                        <CardImg style={{borderRadius: '15px'}} width="100%" src={post.thumbnail} alt="Card image cap"/>
+                                        <CardImgOverlay>
+                                            <Card style={{border: '1px solid white'}}>
+                                                <CardTitle className="text-dark"><small>{post.title}</small></CardTitle>
+                                                <Row>
+                                                    <Col xs="5">
+                                                        <CardSubtitle className="text-left text-danger">
+                                                            <small>
+                                                                BUSINESS
+                                                            </small>
+                                                        </CardSubtitle>
+                                                    </Col>
+                                                    <Col xs="7">
+                                                        <CardSubtitle className="text-right text-secondary">
+                                                            <small>
+                                                                March 12, 2020
+                                                            </small>
+                                                        </CardSubtitle>
+                                                    </Col>
+                                                </Row>
+                                            </Card>
+                                        </CardImgOverlay>
+                                    </Card>
+                                </div>
+                            )
+                        })}
                     </div>
+
+                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
+                        <h5 className="text-light font-weight-bold">
+                            Categories
+                        </h5>
+                    </div>
+
+                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
+                        {props.cats.map(cat => {
+                            return <div>
+                                <Card inverse key={cat.id} style={{marginLeft: '20px', height: '80px', width: '100px'}}>
+                                    <CardImg style={{borderRadius: '5px'}} width="100%" src={cat.thumbnail} alt="Card image cap"/>
+                                </Card>
+                                <div className="text-center">
+                                    <small className="text-light">{cat.title}</small>
+                                </div>
+                            </div>
+                        })}
+                    </div>
+
+                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
+                        <h5 className="text-light font-weight-bold">
+                            Recent
+                        </h5>
+                    </div>
+                    <div style={{marginLeft: '20px'}}>
+                        <div>
+                            <PostSmall1 selected={selectPostHandler}/>
+                        </div>
+                        <div>
+                            <PostSmall1 selected={selectPostHandler}/>
+                        </div>
+                        <div>
+                            <PostSmall1 selected={selectPostHandler}/>
+                        </div>
+                    </div>
+        
                     <div className="container" style={{position: 'fixed', bottom: '0', width: '100%'}}>
                         <Nav pills>
                             <NavItem>
@@ -128,7 +214,15 @@ const homePage = (props) => {
                             </NavItem>
                         </Nav>
                     </div>
+                    
                 </div>
+                </div>
+    }
+
+    return (
+        <Container fluid={true} style={{padding: '0px'}}>
+                {homePage}
+                
             </Container>
     );
 }
@@ -136,6 +230,7 @@ const homePage = (props) => {
 const mapStateToProps = state => {
     return {
         pst: state.posts,
+        cats: state.categories,
         author: state.authors,
         error: state.error
     }

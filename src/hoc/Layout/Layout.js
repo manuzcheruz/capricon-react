@@ -10,7 +10,7 @@ class Layout extends Component {
                     <Toolbar />
                     {/* sidebar */}
                     {/* main content */}
-                    <main style={{backgroundColor: 'rgb(228, 237, 232)'}}>
+                    <main style={{backgroundColor: '#092e42'}}>
                         {this.props.children}
                     </main>
                 </Aux>

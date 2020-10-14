@@ -12,7 +12,6 @@ class FullPost extends Component {
         if (this.props.postId) {
             if (!this.props.activePost || (this.props.activePost && this.props.activePost.id !== +this.props.postId)) {
                 this.props.onFetchActivePost(this.props.postId);
-                console.log('here');
             }
         }
     }
