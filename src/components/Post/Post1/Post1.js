@@ -16,7 +16,7 @@ const post1 = (props) => {
     let post = <h1>cannot load post!</h1>
     if (!props.error) {
         post = props.post.slice(0, 1).map(pst => {
-            return <Card key={pst.id} onClick={() => props.selected(pst.id)} className="border border-white" style={{height: '222px' ,boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '20px'}}>
+            return <Card key={pst.id} onClick={() => props.selected(pst.id, pst.catId)} className="border border-white" style={{height: '222px' ,boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '20px'}}>
             <CardBody style={{padding: '5px'}}>
                 <Row>                 
                     <Col xs="6">

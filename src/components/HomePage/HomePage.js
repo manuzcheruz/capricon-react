@@ -20,9 +20,10 @@ import './HomePage.css';
 
 const homePage = (props) => {
     
-    const selectPostHandler = (id) => {
-        props.history.push('/post/' + id); 
+    const selectPostHandler = (id, catId) => {
+        props.history.push('/post/'); 
         props.onSelectPost(id);
+        props.onSelectPostCategoryId(catId);
     } 
 
     const selectedAuthor = (id) => {
@@ -30,8 +31,8 @@ const homePage = (props) => {
     }
 
     const onSelectCatHandler = (id) => {
-        props.history.push('/category/' + id)
-
+        props.history.push('/category/');
+        props.onSelectCategory(id);
     }
 
     let homePage = props.error ? <h1>Failed to load page!</h1> : <Spinner />
@@ -114,6 +115,17 @@ const homePage = (props) => {
                             </div>
                     })}
 
+                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
+                        <h5 className="text-light font-weight-bold">
+                            Featured
+                        </h5>
+                    </div>
+                    {/* <div style={{marginLeft: '20px'}}>
+                        <div>
+                            <PostSmall1 selected={selectPostHandler}/>
+                        </div>
+                    </div> */}
+
                     <div style={{marginLeft: '20px', marginRight: '20px'}}>
                         <Row className="text-light">
                             <Col xs="6">
@@ -171,7 +183,7 @@ const homePage = (props) => {
                     <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
                         {props.cats.map(cat => {
                             return <div>
-                                <Card inverse key={cat.id} style={{marginLeft: '20px', height: '80px', width: '100px'}}>
+                                <Card onClick={() => onSelectCatHandler(cat.id)} inverse key={cat.id} style={{marginLeft: '20px', height: '80px', width: '100px'}}>
                                     <CardImg style={{borderRadius: '5px'}} width="100%" src={cat.thumbnail} alt="Card image cap"/>
                                 </Card>
                                 <div className="text-center">
@@ -187,12 +199,6 @@ const homePage = (props) => {
                         </h5>
                     </div>
                     <div style={{marginLeft: '20px'}}>
-                        <div>
-                            <PostSmall1 selected={selectPostHandler}/>
-                        </div>
-                        <div>
-                            <PostSmall1 selected={selectPostHandler}/>
-                        </div>
                         <div>
                             <PostSmall1 selected={selectPostHandler}/>
                         </div>
@@ -238,7 +244,9 @@ const mapStateToProps = state => {
 
 const dispatchPropsToState = dispatch => {
     return {
-        onSelectPost: (id) => dispatch(actionCreators.activePostId(id))
+        onSelectPost: (id) => dispatch(actionCreators.activePostId(id)),
+        onSelectPostCategoryId: (id) => dispatch(actionCreators.activePostCategoryId(id)),
+        onSelectCategory: (id) => dispatch(actionCreators.activeCategoryId(id))
     }
 }
 

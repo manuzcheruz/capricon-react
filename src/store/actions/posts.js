@@ -117,3 +117,26 @@ export const initActivePost = (id, dispatch) => {
             });
     }
 }
+
+// selecting category for the active post
+export const activePostCategoryId = (id) => {
+    return {
+        type: actionTypes.ACTIVE_POST_CATEGORY_ID,
+        id: id
+    }
+}
+
+// setting the category id to null when not in the categories page (when in the homepage or anywhere else)
+export const setCatIdToNull = () => {
+    return {
+        type: actionTypes.SET_CATEGORY_ID_TO_NULL
+    }
+}
+
+// category
+export const activeCategoryId = id => {
+    return {
+        type: actionTypes.ACTIVE_CATEGORY_ID,
+        id: id
+    }
+}

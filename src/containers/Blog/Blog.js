@@ -2,6 +2,7 @@ import React, {Component, Suspense} from 'react';
 import { Route, Switch, Redirect} from 'react-router-dom';
 
 // import HomePage from '../../components/HomePage/HomePage';
+import CategoryPage from './Category/CategoryPage';
 import FullPost from './FullPost/FullPost';
 import Posts from './Posts/Posts';
 
@@ -18,7 +19,8 @@ class Blog extends Component {
                     {this.state.auth ? <Route path="/new-post" render={() => <Suspense fallback={<h1>loading...</h1>}><LazyNewPost /></Suspense>} /> : null}
                     {/* <Route path="/home-page" exact component={HomePage}/> */}
                     <Route path="/post/" exact component={FullPost}/>
-                    <Route path="/" exact component={Posts}/>
+                    <Route path="/category/" exact component={CategoryPage}/>
+                    <Route path="/" component={Posts}/>
                     <Redirect from="/" to="/post/" />
                 </Switch>
                 

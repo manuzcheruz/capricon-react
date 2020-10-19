@@ -3,5 +3,8 @@ export {
     initCategories,
     initPosts,
     activePostId,
-    initActivePost
+    initActivePost,
+    activeCategoryId,
+    activePostCategoryId,
+    setCatIdToNull
 } from './posts';

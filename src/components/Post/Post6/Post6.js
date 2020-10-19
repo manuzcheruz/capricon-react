@@ -22,8 +22,7 @@ const post6 = (props) => {
                 <Col xs="8">
                     <Button style={{borderRadius: '5px', height: '30px', padding: '2px 15px 2px 15px'}} className="btn-success">Featured</Button>
                     <CardTitle style={{paddingTop: '10px'}}>{pst.title}</CardTitle>
-                    <CardText className="text-success">
-                        <div dangerouslySetInnerHTML={{__html: pst.content.length > 90 ? `${pst.content.substring(0, 90)}...` : pst.content}}/>
+                    <CardText className="text-success" dangerouslySetInnerHTML={{__html: pst.content.length > 90 ? `${pst.content.substring(0, 90)}...` : pst.content}}>
                     </CardText>
                 </Col>
                 <Col xs="4">
