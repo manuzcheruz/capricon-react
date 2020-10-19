@@ -19,7 +19,11 @@ export const fetchPostsFailed = () => {
 // async code to fetch posts
 export const initPosts = dispatch => {
     return dispatch => {
-        axios.get('/posts')
+        axios.get('/rest/posts', {
+            params: {
+                _limit: 10
+            }
+        })
             .then(response => {
                 dispatch(fetchPosts(response.data));
             })
@@ -46,7 +50,7 @@ export const fetchCategoriesFailed = () => {
 
 export const initCategories = dispatch => {
     return dispatch => {
-        axios.get('/categories')
+        axios.get('/rest/categories')
             .then(response => {
                 dispatch(fetchCategories(response.data));
             })
@@ -72,7 +76,7 @@ export const fetchAuthorsFailed = () => {
 
 export const initAuthors = dispatch => {
     return dispatch => {
-        axios.get('/authors')
+        axios.get('/rest/authors')
             .then(response => {
                 dispatch(fetchAuthors(response.data));
             })
@@ -108,7 +112,7 @@ export const activePostFetchFailed = () => {
 // async to run code for fetching active post
 export const initActivePost = (id, dispatch) => {
     return dispatch => {
-        axios.get('/posts/' + id)
+        axios.get('/rest/posts/' + id)
             .then(response => {
                 dispatch(fetchActivePost(response.data));
             })
@@ -137,6 +141,41 @@ export const setCatIdToNull = () => {
 export const activeCategoryId = id => {
     return {
         type: actionTypes.ACTIVE_CATEGORY_ID,
+        id: id
+    }
+}
+
+// fetching the users
+export const fetchUsers = users => {
+    return {
+        type: actionTypes.FETCH_USERS,
+        users: users
+    }
+}
+
+export const fetchUsersFailed = () => {
+    return {
+        type: actionTypes.FETCH_USERS_FAILED
+    }
+}
+
+// async function to get rest api
+export const initUsers = dispatch => {
+    return dispatch => {
+        axios.get('/users')
+            .then(response => {
+                dispatch(fetchUsers(response.data))
+            })
+            .catch(error => {
+                dispatch(fetchUsersFailed())
+            })
+    }
+}
+
+// author profile id
+export const selectProfileId = id => {
+    return {
+        type: actionTypes.AUTHOR_PROFILE_ID,
         id: id
     }
 }

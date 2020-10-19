@@ -15,3 +15,10 @@ export const ACTIVE_POST_CATEGORY_ID = 'ACTIVE_POST_CATEGORY_ID';
 // category
 export const ACTIVE_CATEGORY_ID = 'ACTIVE_CATEGORY_ID';
 export const SET_CATEGORY_ID_TO_NULL = 'SET_CATEGORY_ID_TO_NULL';
+
+// fetching the users 
+export const FETCH_USERS = 'FETCH_USERS';
+export const FETCH_USERS_FAILED = 'FETCH_USERS_FAILED';
+
+// assigning profile id to use in fetching the profile from authors
+export const AUTHOR_PROFILE_ID = 'AUTHOR_PROFILE_ID'

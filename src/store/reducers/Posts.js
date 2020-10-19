@@ -4,12 +4,14 @@ const initialState = {
     posts: [],
     categories: [],
     authors: [],
+    users: [],
     activePostId: null,
     activePost: null,
     error: true,
     activePostError: false,
     activeCategoryId: null,
-    activePostCategoryId: null
+    activePostCategoryId: null,
+    profileId: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -36,9 +38,19 @@ const reducer = (state = initialState, action) => {
                 categories: state.categories.concat(action.cats)
             }
         case actionTypes.FETCH_AUTHORS:
+            let fetchedAuthors = action.authors
+            for (let author of fetchedAuthors) {
+                let id = +author.user.split('/').slice(-2,-1)
+                author.userId = id
+            }
             return {
                 ...state,
-                authors: action.authors
+                authors: fetchedAuthors
+            }
+        case actionTypes.FETCH_USERS:
+            return {
+                ...state,
+                users: action.users
             }
         case actionTypes.SELECT_POST:
             return {
@@ -67,12 +79,18 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_CATEGORY_ID_TO_NULL:
             return {
                 ...state,
-                activeCategoryId: null
+                activeCategoryId: null,
+                profileId: null
             }
         case actionTypes.ACTIVE_POST_CATEGORY_ID:
             return {
                 ...state,
                 activePostCategoryId: action.id
+            }
+        case actionTypes.AUTHOR_PROFILE_ID:
+            return {
+                ...state,
+                profileId: action.id
             }
         default:
             return state;

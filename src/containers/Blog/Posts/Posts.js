@@ -13,6 +13,7 @@ class Posts extends Component {
         this.props.fetchPosts();
         this.props.fetchCats();
         this.props.fetchAuthors();
+        this.props.fetchUsers();
         this.props.setCatIdToNull();
     }
 
@@ -43,6 +44,7 @@ const dispatchStateToProps = dispatch => {
         fetchPosts: () => dispatch(actionCreators.initPosts()),
         fetchCats: () => dispatch(actionCreators.initCategories()),
         fetchAuthors: () => dispatch(actionCreators.initAuthors()),
+        fetchUsers: () => dispatch(actionCreators.initUsers()),
         setCatIdToNull: () => dispatch(actionCreators.setCatIdToNull())
     }
 }

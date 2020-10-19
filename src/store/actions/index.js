@@ -6,5 +6,7 @@ export {
     initActivePost,
     activeCategoryId,
     activePostCategoryId,
-    setCatIdToNull
+    setCatIdToNull,
+    initUsers,
+    selectProfileId
 } from './posts';

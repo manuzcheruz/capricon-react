@@ -28,7 +28,7 @@ class FullPost extends Component {
                         <Card style={{height: '100%', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                             <CardBody>
                                 <CardSubtitle>
-                                    <small className="text-success">TECHNOLOGY
+                                    <small className="text-success text-uppercase">{this.props.categories.filter(item => item.id === post.catId).map(cat => cat.title)}
                                     </small>
                                 </CardSubtitle>
                                 <CardTitle className="text-light" style={{paddingTop: '5px'}}>{post.title}</CardTitle>
@@ -36,7 +36,9 @@ class FullPost extends Component {
                                     <Col xs="6">
                                         <CardSubtitle className="text-left">
                                             <small className="text-muted">
-                                                Published by {this.props.authors.filter(item => item.id === post.authorId)}
+                                                Published by <span className="text-capitalize">
+                                                    {this.props.users.filter(item => item.id === post.authorId).map(item => item.username)}
+                                                </span>
                                             </small>
                                         </CardSubtitle>
                                     </Col>
@@ -71,6 +73,7 @@ const mapStateToProps = state => {
         postId: state.activePostId,
         posts: state.posts,
         authors: state.authors,
+        users: state.users,
         categories: state.categories
         // activePost: state.activePost
     }

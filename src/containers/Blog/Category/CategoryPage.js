@@ -17,7 +17,7 @@ class CategoryPage extends Component {
     }
 
     selectPostHandler = (id) => {
-        this.props.history.push('/post/' + id);
+        this.props.history.push('/post/');
         this.props.onSelectPost(id);
     }
 

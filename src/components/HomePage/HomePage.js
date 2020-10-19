@@ -18,7 +18,7 @@ import Spinner from '../UI/Spinner/Spinner';
 import PostSmall1 from '../Post/PostSmall/PostSmall1';
 import './HomePage.css';
 
-const homePage = (props) => {
+const homePage = props => {
     
     const selectPostHandler = (id, catId) => {
         props.history.push('/post/'); 
@@ -26,13 +26,19 @@ const homePage = (props) => {
         props.onSelectPostCategoryId(catId);
     } 
 
-    const selectedAuthor = (id) => {
-        props.history.push('/author/' + id);
+    const selectedAuthor = id => {
+        props.history.push('/author/');
     }
 
-    const onSelectCatHandler = (id) => {
+    const onSelectCatHandler = id => {
         props.history.push('/category/');
         props.onSelectCategory(id);
+    }
+
+    // redirecting to author profile when the username is clicked
+    const selectProfile = id => {
+        props.history.push('/author/');
+        props.onSelectProfile(id);
     }
 
     let homePage = props.error ? <h1>Failed to load page!</h1> : <Spinner />
@@ -91,14 +97,14 @@ const homePage = (props) => {
                     </Row>
                 </div>
                 <div className="Small">
-                    {props.author.slice(1,2).map(user => {
+                    {props.users.slice(5,6).map(user => {
                         return <div>
-                                <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                                <Card onClick={() => selectProfile(user.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                                     <CardBody>
                                         <Row>
                                             <Col xs="6">
                                                 <CardTitle>
-                                                    <h2>Hi, <span className="text-muted">Manuz</span></h2>
+                                                    <h2>Hi, <span className="text-muted text-capitalize">{user.username}</span></h2>
                                                 </CardTitle>
                                                 <CardSubtitle>
                                                     Good Morning.
@@ -106,7 +112,7 @@ const homePage = (props) => {
                                             </Col>
                                             <Col xs="6">
                                                 <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
-                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={user.profile_picture} alt="Card image cap"/>
+                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={props.authors.filter(item => item.id === user.id).map(item => item.profile_picture)} alt="Card image cap"/>
                                                 </div>
                                             </Col>
                                         </Row>
@@ -198,7 +204,7 @@ const homePage = (props) => {
                             Recent
                         </h5>
                     </div>
-                    <div style={{marginLeft: '20px'}}>
+                    <div style={{marginLeft: '20px', marginRight: '20px'}}>
                         <div>
                             <PostSmall1 selected={selectPostHandler}/>
                         </div>
@@ -237,7 +243,8 @@ const mapStateToProps = state => {
     return {
         pst: state.posts,
         cats: state.categories,
-        author: state.authors,
+        authors: state.authors,
+        users: state.users,
         error: state.error
     }
 }
@@ -246,7 +253,8 @@ const dispatchPropsToState = dispatch => {
     return {
         onSelectPost: (id) => dispatch(actionCreators.activePostId(id)),
         onSelectPostCategoryId: (id) => dispatch(actionCreators.activePostCategoryId(id)),
-        onSelectCategory: (id) => dispatch(actionCreators.activeCategoryId(id))
+        onSelectCategory: (id) => dispatch(actionCreators.activeCategoryId(id)),
+        onSelectProfile: (id) => dispatch(actionCreators.selectProfileId(id))
     }
 }
 

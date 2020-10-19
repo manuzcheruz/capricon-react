@@ -27,8 +27,39 @@ const post1 = (props) => {
                                         <Row>
                                             <Col xs="6">
                                                 <CardSubtitle className="text-left text-light">
-                                                    <small className="text-muted">
-                                                        DESIGN
+                                                    <small className="text-muted text-capitalize">
+                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
+                                                    </small>
+                                                </CardSubtitle>
+                                            </Col>
+                                            <Col xs="6">
+                                                <CardSubtitle className="text-right text-light">
+                                                    <small>
+                                                        2 hrs ago
+                                                    </small>
+                                                </CardSubtitle>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </CardBody>
+                        </Card>
+        })
+    } else if (props.authorId) {
+        posts = props.posts.filter(item => item.authorId === props.authorId).slice(0,5).map(pst => {
+            return <Card key={pst.id} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                            <CardBody style={{padding: '1px'}}>
+                                <Row>
+                                    <Col xs="4">
+                                        <CardImg style={{borderRadius: '10px', height: '90px'}} width="100%" src={pst.thumbnail} alt="Card image cap"/>
+                                    </Col>
+                                    <Col xs="8" style={{padding: '0px'}}>
+                                        <CardTitle className="text-light"><small>{pst.title}</small></CardTitle>
+                                        <Row>
+                                            <Col xs="6">
+                                                <CardSubtitle className="text-left text-light">
+                                                    <small className="text-muted text-capitalize">
+                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
@@ -58,8 +89,8 @@ const post1 = (props) => {
                                         <Row>
                                             <Col xs="6">
                                                 <CardSubtitle className="text-left text-light">
-                                                    <small className="text-muted">
-                                                        DESIGN
+                                                    <small className="text-muted text-capitalize">
+                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
@@ -85,7 +116,9 @@ const post1 = (props) => {
 const mapStateToProps = state => {
     return {
         posts: state.posts,
-        categoryId: state.activeCategoryId
+        categories: state.categories,
+        categoryId: state.activeCategoryId,
+        authorId: state.profileId,
     }
 }
 
