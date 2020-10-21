@@ -1,11 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Card, CardImg, CardImgOverlay, CardText, CardTitle } from 'reactstrap';
+import { Button, Card, CardImg, CardImgOverlay, CardText, CardTitle } from 'reactstrap';
 
 import * as actionCreators from '../../store/actions/index';
 import PostSmall1 from '../Post/PostSmall/PostSmall1';
 
 const profilePage = props => {
+    const addPostHandler = () => {
+        props.history.push('/new-post')
+    }
     const selectPostHandler = id => {
         props.history.push('/post/');
         props.onSelectPost(id);
@@ -41,6 +44,11 @@ const profilePage = props => {
                                         <div>
                                             <PostSmall1 selected={selectPostHandler} />
                                         </div>
+                                    </div>
+                                    <div style={{position: 'fixed', right: '20px', bottom: '20px'}}>
+                                        <Button onClick={addPostHandler} className="btn btn-secondary" style={{backgroundColor: 'rgba(126,203,244,1)', height: '70px', width: '70px', padding: '10px 16px', borderRadius: '35px', fontSize: '12px', textAlign: 'center'}}>
+                                            add
+                                        </Button>
                                     </div>
         </div>
         })

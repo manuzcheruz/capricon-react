@@ -19,11 +19,7 @@ export const fetchPostsFailed = () => {
 // async code to fetch posts
 export const initPosts = dispatch => {
     return dispatch => {
-        axios.get('/rest/posts', {
-            params: {
-                _limit: 10
-            }
-        })
+        axios.get('/rest/posts/')
             .then(response => {
                 dispatch(fetchPosts(response.data));
             })

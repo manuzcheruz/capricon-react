@@ -5,6 +5,7 @@ import { Route, Switch, Redirect} from 'react-router-dom';
 import ProfilePage from '../../components/ProfilePage/ProfilePage';
 import CategoryPage from './Category/CategoryPage';
 import FullPost from './FullPost/FullPost';
+import NewPosts from './NewPosts/NewPosts';
 import Posts from './Posts/Posts';
 
 const LazyNewPost = React.lazy(() => import('./NewPosts/NewPosts'));
@@ -22,6 +23,7 @@ class Blog extends Component {
                     <Route path="/post/" exact component={FullPost}/>
                     <Route path="/category/" exact component={CategoryPage}/>
                     <Route path="/author/" exact component={ProfilePage} />
+                    <Route path="/new-post" exact component={NewPosts} />
                     <Route path="/" component={Posts}/>
                     <Redirect from="/" to="/post/" />
                 </Switch>
