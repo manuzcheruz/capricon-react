@@ -13,5 +13,6 @@ export {
 export {
     initAuth,
     authCheckState,
-    logout
+    logout,
+    switchSignInForm
 } from './auth';

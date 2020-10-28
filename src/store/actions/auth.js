@@ -45,9 +45,10 @@ export const initAuth = (username, password) => {
         dispatch(authStart());
         const url = '/rest-auth/login/'
         const data = {
-            username: 'manuz',
-            password: 'disneyboy1234'
+            username: username,
+            password: password
         }
+        console.log(username);
         axios.post(url, data)
             .then(response => {
                 console.log(response.data);
@@ -81,5 +82,11 @@ export const authCheckState = () => {
             }
 
         }
+    }
+}
+
+export const switchSignInForm = () => {
+    return {
+        type: actionTypes.SWITCH_SIGNIN_FORM
     }
 }

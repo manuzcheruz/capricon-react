@@ -4,7 +4,8 @@ const initialState = {
     token: null,
     userId: null,
     authStart: null,
-    authError: null
+    authError: null,
+    switchForm: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 token: null,
                 userId: null
+            }
+        case actionTypes.SWITCH_SIGNIN_FORM:
+            return {
+                ...state,
+                switchForm: true
             }
         default:
             return state;

@@ -10,17 +10,13 @@ import {
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 
-class Auth extends Component {
-    state = {
-        isSignInForm: true
-    }
-
+class Signup extends Component {
     componentDidMount () {
         this.props.onAuthSignIn()
     }
 
     onSwitchHandler = () => {
-        this.setState({isSignInForm: !this.state.isSignInForm})
+        this.props.onSwitchSignInForm();
     }
 
     render() {
@@ -28,38 +24,7 @@ class Auth extends Component {
                 <Spinner />
             </div>
 
-        if (!this.props.authStart) {
-        form = <div>
-                <h1 className="text-light text-left" style={{marginTop: '50px'}}>Welcome</h1>
-                <h1 className="text-light text-left">Back</h1>
-                <Form style={{marginTop: '100px'}}>
-                            <FormGroup>
-                                <Label className="text-light">
-                                    Username
-                                </Label>
-                                <Input type="text" required name="title" placeholder="Enter your username" />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label className="text-light">
-                                    Password
-                                </Label>
-                                <Input type="password" required name="password" placeholder="Enter your password" />
-                                <small className="text-danger">
-                                    {(this.props.touched && this.props.error) 
-                                    ? <span>{this.props.errors}</span>
-                                    : null}
-                                </small>
-                            </FormGroup>
-                            <div className="text-center" style={{paddingTop: '10px'}}>
-                                <Button style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
-                                    Login
-                                </Button>
-                            </div>
-                </Form>
-            </div>
-        }
-
-        if (!this.state.isSignInForm && !this.props.authStart) {
+        if (!this.props.isSignInForm && !this.props.authStart) {
             form = <div>
             <h1 className="text-light text-left" style={{marginTop: '0px'}}>Create</h1>
             <h1 className="text-light text-left">Account</h1>
@@ -102,7 +67,7 @@ class Auth extends Component {
                 <h5 className="text-light text-center" style={{marginTop: '10px'}}>or</h5>
                 <div className="text-center" style={{paddingTop: '10px'}}>
                     <Button onClick={this.onSwitchHandler} style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
-                        {this.state.isSignInForm ? 'Sign Up' : 'Login'}
+                        {this.props.isSignInForm ? 'Sign Up' : 'Login'}
                     </Button>
                 </div>
             </div>
@@ -112,28 +77,15 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-        authStarted: state.auth.authStart
+        authStarted: state.auth.authStart,
+        isSignInForm: state.auth.switchForm !== null
     }
 }
 
 const mapPropsToDispatch = dispatch => {
     return {
-        onAuthSignIn: () => dispatch(actions.initAuth())
-    }
-}
-
-const validationRulesSignIn = () => {
-    return {
-       mapPropsToValues: () => ({
-               username: '',
-               password: ''
-           }),
-           validationSchema: Yup.object().shape({
-               username: Yup.string()
-                   .required('username is required!'),
-               password: Yup.string()
-                   .required('password is required!')
-           })
+        onAuthSignIn: () => dispatch(actions.initAuth()),
+        onSwitchSignInForm: () => dispatch(actions.switchSignInForm())
     }
 }
 
@@ -141,22 +93,24 @@ const validationRulesSignUp = () => {
     return {
         mapPropsToValues: () => ({
             username: '',
-            password: ''
+            email: '',
+            password1: '',
+            password2: ''
+
         }),
         validationSchema: Yup.object().shape({
             username: Yup.string()
+                .min(3, 'should be 3 characters or more')
+                .max(50, 'should be 50 characters or less')
                 .required('username is required!'),
+            email: Yup.string()
+                .required('email is required!'),
             password: Yup.string()
+                .required('password is required!'),
+            password2: Yup.string()
                 .required('password is required!')
         })
     }
 }
 
-let rules = validationRulesSignIn
-if (!this.state.isSignInForm) {
-    rules = validationRulesSignUp
-}
-
-export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
-    rules
-})(Auth));
+export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({validationRulesSignUp})(Signup));
