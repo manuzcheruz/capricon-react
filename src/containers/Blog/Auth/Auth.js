@@ -122,15 +122,41 @@ const mapPropsToDispatch = dispatch => {
     }
 }
 
+const validationRulesSignIn = () => {
+    return {
+       mapPropsToValues: () => ({
+               username: '',
+               password: ''
+           }),
+           validationSchema: Yup.object().shape({
+               username: Yup.string()
+                   .required('username is required!'),
+               password: Yup.string()
+                   .required('password is required!')
+           })
+    }
+}
+
+const validationRulesSignUp = () => {
+    return {
+        mapPropsToValues: () => ({
+            username: '',
+            password: ''
+        }),
+        validationSchema: Yup.object().shape({
+            username: Yup.string()
+                .required('username is required!'),
+            password: Yup.string()
+                .required('password is required!')
+        })
+    }
+}
+
+let rules = validationRulesSignIn
+if (!this.state.isSignInForm) {
+    rules = validationRulesSignUp
+}
+
 export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
-    mapPropsToValues: () => ({
-        username: '',
-        password: ''
-    }),
-    validationSchema: Yup.object().shape({
-        username: Yup.string()
-            .required('username is required!'),
-        password: Yup.string()
-            .required('password is required!')
-    })
+    rules
 })(Auth));
