@@ -19,7 +19,7 @@ export const fetchPostsFailed = () => {
 // async code to fetch posts
 export const initPosts = dispatch => {
     return dispatch => {
-        axios.get('/rest/posts/')
+        axios.get('/rest-api/posts/')
             .then(response => {
                 dispatch(fetchPosts(response.data));
             })
@@ -46,7 +46,7 @@ export const fetchCategoriesFailed = () => {
 
 export const initCategories = dispatch => {
     return dispatch => {
-        axios.get('/rest/categories')
+        axios.get('/rest-api/categories')
             .then(response => {
                 dispatch(fetchCategories(response.data));
             })
@@ -72,7 +72,7 @@ export const fetchAuthorsFailed = () => {
 
 export const initAuthors = dispatch => {
     return dispatch => {
-        axios.get('/rest/authors')
+        axios.get('/rest-api/authors')
             .then(response => {
                 dispatch(fetchAuthors(response.data));
             })
@@ -108,7 +108,7 @@ export const activePostFetchFailed = () => {
 // async to run code for fetching active post
 export const initActivePost = (id, dispatch) => {
     return dispatch => {
-        axios.get('/rest/posts/' + id)
+        axios.get('/rest-api/posts/' + id)
             .then(response => {
                 dispatch(fetchActivePost(response.data));
             })

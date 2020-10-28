@@ -35,7 +35,7 @@ const post5 = (props) => {
 
 const mapStateToProps = state => {
     return {
-        post: state.posts
+        post: state.post.posts
     }
 }
 

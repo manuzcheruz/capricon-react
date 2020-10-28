@@ -97,9 +97,9 @@ class CategoryPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts,
-        categories: state.categories,
-        categoryId: state.activeCategoryId
+        posts: state.post.posts,
+        categories: state.post.categories,
+        categoryId: state.post.activeCategoryId
     }
 }
 

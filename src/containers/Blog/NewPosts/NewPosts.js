@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { withFormik, Formik } from 'formik';
 import { connect } from 'react-redux'
 import axios from '../../../axios';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
 import { Editor } from '@tinymce/tinymce-react';
-import { Formik,} from 'formik';
+import * as Yup from 'yup';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 
@@ -15,7 +16,6 @@ class NewPosts extends Component {
 
     postHandler = event => {
         event.preventDefault()
-        console.log('hapa');
         let article = {
             title: '',
             categories: [],
@@ -35,68 +35,44 @@ class NewPosts extends Component {
 
     
     render() {
-        let form = <div>
-            <h5 className="text-light text-center">Create a new article {this.props.users.filter(item => item.id === this.props.authorId).map(item => <span className="text-capitalize">{item.username}</span>)}</h5>
-        <Form onSubmit={this.postHandler}>
-                    <FormGroup>
-                        <Label className="text-light">
-                            Title
-                        </Label>
-                        <Input type="text" required name="title" placeholder="Enter article title" onChange={(event) => this.inputChangeHandler(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label className="text-light">
-                            Content
-                        </Label>
-                        <Editor apiKey = "doh7uvi94w8ejme39aoeql00wr4wtwf5303k0o30lw2751ez"
-                            initialValue = "<p>Enter content here</p>"
-                            plugins = 'wordcount' />
-                    </FormGroup>
-                    <FormGroup className="text-light">
-                        <Label>
-                            Thumbnail
-                        </Label>
-                        <Input type="file" />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label className="text-light">
-                            Category
-                        </Label>
-                        <Input type="select" name="category">
-                            {this.props.categories.map(item => <option value={item.id}>{item.title}</option>)}
-                        </Input>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label className="text-light">
-                            Status
-                        </Label>
-                        <Input type="select" name="status">
-                            <option>Publish</option>
-                            <option>Draft</option>
-                        </Input>
-                    </FormGroup>
-                    <FormGroup check>
-                        <Label className="text-light" check>
-                            <Input type="checkbox"/>
-                            Feature article?
-                        </Label>
-                    </FormGroup>
-                    <div className="text-center" style={{paddingTop: '10px'}}>
-                        <Button style={{width: '200px', backgroundColor: 'rgba(126,203,244,1)'}}>
-                            Submit article
-                        </Button>
-                    </div>
-                </Form>
-        </div>
-        if (this.state.loading) {
-            form = <div className="text-center">
-                    <Spinner />
-                </div>
-        }
         return (
-            <div style={{padding: '10px'}}>
-                {form}
-            </div>
+            <Formik
+                initialValues={{
+                    title: '',
+                    categories: '',
+                    author: '',
+                    content: '',
+                    thumbnail: '',
+                    featured: ''
+                }}
+                validationSchema={Yup.object({
+                    title: Yup.string()
+                        .min(1, 'Cannot be empty!')
+                        .max(100, 'Must be 100 characters or less')
+                        .required('Required'),
+                    categories: Yup.string()
+                        .oneOf(this.props.categories.title, 'Invalid category')
+                        .required('Required'),
+                    author: Yup.string()
+                        .required('Required'),
+                    content: Yup.string()
+                        .min(1, 'Cannot be empty!')
+                        .max(1000, 'Must be 1000 characters or less')
+                        .required('Required'),
+                    thumbnail: Yup.string()
+                        .required('Required'),
+                    featured: Yup.string()
+                        .optional()
+                })}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                    setTimeout(() => {
+                        alert(JSON.stringify(values, null, 2));
+                        resetForm();
+                        setSubmitting(false);
+                    }, 3000)
+                }}
+            >
+            </Formik>
         )
     }
 }

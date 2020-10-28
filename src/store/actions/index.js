@@ -10,3 +10,8 @@ export {
     initUsers,
     selectProfileId
 } from './posts';
+export {
+    initAuth,
+    authCheckState,
+    logout
+} from './auth';

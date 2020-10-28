@@ -3,6 +3,7 @@ import { Route, Switch, Redirect} from 'react-router-dom';
 
 // import HomePage from '../../components/HomePage/HomePage';
 import ProfilePage from '../../components/ProfilePage/ProfilePage';
+import Auth from './Auth/Auth';
 import CategoryPage from './Category/CategoryPage';
 import FullPost from './FullPost/FullPost';
 import NewPosts from './NewPosts/NewPosts';
@@ -24,6 +25,7 @@ class Blog extends Component {
                     <Route path="/category/" exact component={CategoryPage}/>
                     <Route path="/author/" exact component={ProfilePage} />
                     <Route path="/new-post" exact component={NewPosts} />
+                    <Route path="/auth" exact component={Auth} />
                     <Route path="/" component={Posts}/>
                     <Redirect from="/" to="/post/" />
                 </Switch>

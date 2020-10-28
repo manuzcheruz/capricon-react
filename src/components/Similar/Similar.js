@@ -56,9 +56,9 @@ const similar = (props) => {
 
 const mapStateToProps = state => {
     return {
-        activePostCatId: state.activePostCategoryId,
-        posts: state.posts,
-        similarId: state.activePostId
+        activePostCatId: state.post.activePostCategoryId,
+        posts: state.post.posts,
+        similarId: state.post.activePostId
     }
 }
 

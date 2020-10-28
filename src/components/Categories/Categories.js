@@ -27,7 +27,7 @@ const categories = (props) => {
 
 const mapStateToProps = state => {
     return {
-        cat: state.categories
+        cat: state.post.categories
     }
 }
 

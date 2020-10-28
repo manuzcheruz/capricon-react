@@ -33,7 +33,7 @@ const author = (props) => {
 
 const mapStateToProps = state => {
     return {
-        author: state.authors
+        author: state.post.authors
     }
 }
 

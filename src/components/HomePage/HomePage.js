@@ -241,11 +241,11 @@ const homePage = props => {
 
 const mapStateToProps = state => {
     return {
-        pst: state.posts,
-        cats: state.categories,
-        authors: state.authors,
-        users: state.users,
-        error: state.error
+        pst: state.post.posts,
+        cats: state.post.categories,
+        authors: state.post.authors,
+        users: state.post.users,
+        error: state.post.error
     }
 }
 

@@ -60,10 +60,10 @@ const profilePage = props => {
 
 const mapStateToProps = state => {
     return {
-        authorId: state.profileId,
-        authors: state.authors,
-        users: state.users,
-        posts: state.posts
+        authorId: state.post.profileId,
+        authors: state.post.authors,
+        users: state.post.users,
+        posts: state.post.posts
     }
 }
 
