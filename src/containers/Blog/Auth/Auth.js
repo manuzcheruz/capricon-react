@@ -122,4 +122,15 @@ const mapPropsToDispatch = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapPropsToDispatch)(withFormik()(Auth));
+export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
+    mapPropsToValues: () => ({
+        username: '',
+        password: ''
+    }),
+    validationSchema: Yup.object().shape({
+        username: Yup.string()
+            .required('username is required!'),
+        password: Yup.string()
+            .required('password is required!')
+    })
+})(Auth));
