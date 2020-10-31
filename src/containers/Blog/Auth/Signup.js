@@ -5,56 +5,77 @@ import * as Yup from 'yup';
 
 import * as actions from '../../../store/actions/index';
 import {
-    Form, FormGroup, Label, Input, Button
+    Form, Button
 } from 'reactstrap';
 
+import Field from '../../../components/UI/Field/Field';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 
-class Signup extends Component {
-    componentDidMount () {
-        this.props.onAuthSignIn()
+const fields = [{
+        name: 'username',
+        elementName: 'input',
+        elementType: 'text',
+        label: 'Username',
+        placeholder: 'Enter your username'
+    },
+    {
+        name: 'email',
+        elementName: 'input',
+        elementType: 'email',
+        placeholder: 'Enter your email',
+        label: 'Email'
+    },
+    {
+        name: 'password1',
+        elementName: 'input',
+        elementType: 'password',
+        placeholder: 'Enter your password',
+        label: 'Password'
+    },
+    {
+        name: 'password2',
+        elementName: 'input',
+        elementType: 'password',
+        placeholder: 'Confirm your password',
+        label: 'Confirm Password'
     }
+]
 
+class Signup extends Component {
+
+    signupFormHandler = (event) => {
+        event.preventDefault();
+        this.props.onAuthSignUp(this.props.values)
+    }
+    
     onSwitchHandler = () => {
         this.props.onSwitchSignInForm();
+        this.props.history.push('/signin');
     }
-
+    
     render() {
         let form = <div className="text-center">
                 <Spinner />
             </div>
 
-        if (!this.props.isSignInForm && !this.props.authStart) {
+        if (this.props.isSignInForm && !this.props.authStart) {
             form = <div>
             <h1 className="text-light text-left" style={{marginTop: '0px'}}>Create</h1>
             <h1 className="text-light text-left">Account</h1>
-            <Form style={{marginTop: '0px'}}>
-                        <FormGroup>
-                            <Label className="text-light">
-                                Username
-                            </Label>
-                            <Input type="text" required name="title" placeholder="Enter your username" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className="text-light">
-                                Email
-                            </Label>
-                            <Input type="email" required name="title" placeholder="Enter your email" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className="text-light">
-                                Password
-                            </Label>
-                            <Input type="password" required name="password1" placeholder="Enter your password" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className="text-light">
-                                Confirm Password
-                            </Label>
-                            <Input type="password" required name="password2" placeholder="Confirm your password" />
-                        </FormGroup>
+            <Form onSubmit={event => this.signupFormHandler(event)} style={{marginTop: '0px'}}>
+                        {fields.map((field, i) => {
+                        return (
+                            <Field 
+                                {...field}
+                                {...this.props}
+                                key={i}
+                                value={this.props.values[field.name]}
+                                name={field.name}
+                                onChange={this.props.handleChange}/>
+                        )
+                    })}
                         <div className="text-center" style={{paddingTop: '10px'}}>
-                            <Button style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
+                            <Button type="submit" style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
                                 Sign Up
                             </Button>
                         </div>
@@ -84,14 +105,13 @@ const mapStateToProps = state => {
 
 const mapPropsToDispatch = dispatch => {
     return {
-        onAuthSignIn: () => dispatch(actions.initAuth()),
+        onAuthSignUp: (data) => dispatch(actions.initAuthSignUp(data)),
         onSwitchSignInForm: () => dispatch(actions.switchSignInForm())
     }
 }
 
-const validationRulesSignUp = () => {
-    return {
-        mapPropsToValues: () => ({
+export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
+    mapPropsToValues: () => ({
             username: '',
             email: '',
             password1: '',
@@ -104,13 +124,16 @@ const validationRulesSignUp = () => {
                 .max(50, 'should be 50 characters or less')
                 .required('username is required!'),
             email: Yup.string()
+                .email('Invalid email!')
                 .required('email is required!'),
-            password: Yup.string()
-                .required('password is required!'),
+            password1: Yup.string()
+                .required('password is required!')
+                .min(6, 'should be 6 characters or more')
+                .max(50, 'should be 50 characters or less'),
             password2: Yup.string()
                 .required('password is required!')
-        })
-    }
-}
-
-export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({validationRulesSignUp})(Signup));
+        }),
+        handleSubmit: (values, {setSubmitting}) => {
+            this.onAuthSignUp(values)
+        }
+})(Signup));

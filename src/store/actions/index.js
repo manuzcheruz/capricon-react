@@ -12,7 +12,14 @@ export {
 } from './posts';
 export {
     initAuth,
+    initAuthSignUp,
     authCheckState,
     logout,
     switchSignInForm
 } from './auth';
+export {
+    initNewPost
+} from './newPost';
+export {
+    initProfileUpate
+} from './profile';

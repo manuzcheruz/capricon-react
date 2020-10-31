@@ -1,38 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withFormik } from 'formik';
+import * as Yup from 'yup';
 
 import * as actions from '../../../store/actions/index';
 import {
-    Form, FormGroup, Label, Input, Button
+    Form, Button
 } from 'reactstrap';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Field from '../../../components/UI/Field/Field';
+
+const fields = [
+    {
+        name: 'username',
+        elementName: 'input',
+        elementType: 'text',
+        label: 'Username',
+        placeholder: 'Enter your username'
+    },
+    {
+        name: 'password',
+        elementName: 'input',
+        elementType: 'password',
+        placeholder: 'Enter your password',
+        label: 'Password'
+    }
+]
 
 class Signin extends Component {
-    state = {
-        username: '',
-        password: ''
-    }
 
     signinFormHandler = (event) => {
         event.preventDefault();
-        this.props.onAuthSignIn(this.state.username, this.state.password)
+        this.props.onAuthSignIn(this.props.values)
     }
 
     onSwitchHandler = () => {
         this.props.onSwitchSignInForm();
-    }
-
-    usernameChangeHandler = event => {
-        this.setState({
-            username: event.target.value
-        })
-    }
-
-    passwordChangeHandler = event => {
-        this.setState({
-            password: event.target.value
-        })
+        this.props.history.push('/signup');
     }
 
     render() {
@@ -44,39 +49,23 @@ class Signin extends Component {
         form = <div>
                 <h1 className="text-light text-left" style={{marginTop: '50px'}}>Welcome</h1>
                 <h1 className="text-light text-left">Back</h1>
-                <Form onSubmit={(event) => this.signinFormHandler(event)} style={{marginTop: '100px'}}>
-                    {/* need to loop through this form input to enhnace DRY code */}
-                            <FormGroup>
-                                <Label className="text-light">
-                                    Username
-                                </Label>
-                                <Input 
-                                    type="text" 
-                                    required 
-                                    value={this.state.username}
-                                    onChange={(event) => this.usernameChangeHandler(event)}
-                                    name="username"
-                                    id="username"
-                                    placeholder="Enter your username" />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label className="text-light">
-                                    Password
-                                </Label>
-                                <Input 
-                                    type="password" 
-                                    required 
-                                    value={this.state.password}
-                                    onChange={(event) => this.passwordChangeHandler(event)}
-                                    name="password" 
-                                    id="password"
-                                    placeholder="Enter your password" />
-                            </FormGroup>
-                            <div className="text-center" style={{paddingTop: '10px'}}>
-                                <Button style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
-                                    Login
-                                </Button>
-                            </div>
+                <Form onSubmit={event => this.signinFormHandler(event)} style={{marginTop: '100px'}}>
+                    {fields.map((field, i) => {
+                        return (
+                            <Field 
+                                {...field}
+                                {...this.props}
+                                key={i}
+                                value={this.props.values[field.name]}
+                                name={field.name}
+                                onChange={this.props.handleChange}/>
+                        )
+                    })}
+                    <div className="text-center" style={{paddingTop: '10px'}}>
+                        <Button style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
+                            Login
+                        </Button>
+                    </div>
                 </Form>
             </div>
         }
@@ -109,4 +98,18 @@ const mapPropsToDispatch = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapPropsToDispatch)(Signin);
+export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
+    mapPropsToValues: () => ({
+        username: '',
+        password: ''
+    }),
+    validationSchema: Yup.object().shape({
+        username: Yup.string()
+            .required('username is required!'),
+        password: Yup.string()
+            .required('password is required!')
+    }),
+    handleSubmit: (value, {setSubmitting}) => {
+        this.props.onAuthSignIn(this.state.username, this.state.password)
+    }
+})(Signin));

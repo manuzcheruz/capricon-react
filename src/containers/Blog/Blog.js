@@ -9,6 +9,7 @@ import CategoryPage from './Category/CategoryPage';
 import FullPost from './FullPost/FullPost';
 import NewPosts from './NewPosts/NewPosts';
 import Posts from './Posts/Posts';
+import ProfileUpdate from './Profile/ProfileUpdate';
 
 const LazyNewPost = React.lazy(() => import('./NewPosts/NewPosts'));
 
@@ -28,6 +29,7 @@ class Blog extends Component {
                     <Route path="/new-post" exact component={NewPosts} />
                     <Route path="/signin" exact component={Signin} />
                     <Route path="/signup" exact component={Signup} />
+                    <Route path="/profile-update" component={ProfileUpdate} />
                     <Route path="/" component={Posts}/>
                     <Redirect from="/" to="/post/" />
                 </Switch>

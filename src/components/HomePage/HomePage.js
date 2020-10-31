@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 
 import {
-    Container, Row, Col, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardImgOverlay, Nav, NavItem, NavLink
+    Container, Row, Col, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardImgOverlay, Nav, NavItem, NavLink, Button
 } from 'reactstrap';
 import Categories from '../Categories/Categories';
 import Author from '../Author/Author';
@@ -19,6 +19,9 @@ import PostSmall1 from '../Post/PostSmall/PostSmall1';
 import './HomePage.css';
 
 const homePage = props => {
+    const loginHandler = () => {
+        props.history.push('/signin')
+    }
     
     const selectPostHandler = (id, catId) => {
         props.history.push('/post/'); 
@@ -39,6 +42,67 @@ const homePage = props => {
     const selectProfile = id => {
         props.history.push('/author/');
         props.onSelectProfile(id);
+    }
+
+    const time = new Date().getHours();
+    let greeting = ''
+    if (time < 12) {
+        greeting = 'Good Morning';
+    } else if (time < 18 ) {
+        greeting = 'Good Afternoon';
+    } else {
+        greeting = 'Good Evening'
+    }
+
+    const userId = +localStorage.getItem('userId')
+
+    let user = ''
+    if (localStorage.getItem('userId')) {
+        user = props.users.filter(item => item.id === userId).map((user, i) => {
+                        return <div key={i}>
+                                <Card onClick={() => selectProfile(user.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                                    <CardBody>
+                                        <Row>
+                                            <Col xs="6">
+                                                <CardTitle>
+                                                    <h2>Hi, <span className="text-muted text-capitalize">{user.username}</span></h2>
+                                                </CardTitle>
+                                                <CardSubtitle>
+                                                    {greeting}.
+                                                </CardSubtitle>
+                                            </Col>
+                                            <Col xs="6">
+                                                <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
+                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={props.authors.filter(item => item.id === user.id).map(item => item.profile_picture)} alt="Card image cap"/>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </div>
+                    })
+    } else {
+        user = <div>
+                                <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                                    <CardBody>
+                                        <Row>
+                                            <Col xs="6">
+                                                <CardTitle>
+                                                    <h2>Hi, <span className="text-muted text-capitalize">... Doe</span></h2>
+                                                </CardTitle>
+                                                <CardSubtitle>
+                                                    {greeting}.
+                                                </CardSubtitle>
+                                            </Col>
+                                            <Col xs="6">
+                                                <div className="text-center">
+                                                    <Button onClick={loginHandler} style={{marginTop: '15px'}} className="btn btn-primary">Login</Button>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </div>
     }
 
     let homePage = props.error ? <h1>Failed to load page!</h1> : <Spinner />
@@ -97,29 +161,7 @@ const homePage = props => {
                     </Row>
                 </div>
                 <div className="Small">
-                    {props.users.slice(5,6).map(user => {
-                        return <div>
-                                <Card onClick={() => selectProfile(user.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
-                                    <CardBody>
-                                        <Row>
-                                            <Col xs="6">
-                                                <CardTitle>
-                                                    <h2>Hi, <span className="text-muted text-capitalize">{user.username}</span></h2>
-                                                </CardTitle>
-                                                <CardSubtitle>
-                                                    Good Morning.
-                                                </CardSubtitle>
-                                            </Col>
-                                            <Col xs="6">
-                                                <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
-                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={props.authors.filter(item => item.id === user.id).map(item => item.profile_picture)} alt="Card image cap"/>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
-                            </div>
-                    })}
+                    {user}
 
                     <div style={{marginLeft: '20px', paddingTop: '10px'}}>
                         <h5 className="text-light font-weight-bold">

@@ -30,3 +30,13 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const SWITCH_SIGNIN_FORM = 'SWITCH_SIGNIN_FORM';
 
+// posting a new article
+export const NEW_POST_START = 'NEW_POST_START';
+export const NEW_POST_SUCCESS = 'NEW_POST_SUCCESS';
+export const NEW_POST_FAIL = 'NEW_POST_FAIL';
+
+// updating author profile
+export const UPDATE_PROFILE_START = 'UPDATE_PROFILE_START';
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL';
+

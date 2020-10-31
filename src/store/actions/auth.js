@@ -40,15 +40,11 @@ export const authLogout = (expiryTime) => {
     }
 }
 
-export const initAuth = (username, password) => {
+// user signin
+export const initAuth = (data) => {
     return dispatch => {
         dispatch(authStart());
         const url = '/rest-auth/login/'
-        const data = {
-            username: username,
-            password: password
-        }
-        console.log(username);
         axios.post(url, data)
             .then(response => {
                 console.log(response.data);
@@ -61,6 +57,26 @@ export const initAuth = (username, password) => {
                 console.log(error.response.data);
                 dispatch(authFail(error.response.data.error))
             })
+    }
+}
+
+// user signup
+export const initAuthSignUp = (data) => {
+    return dispatch => {
+        dispatch(authStart())
+        const url = '/rest-auth/registration/'
+        axios.post(url, data)
+            .then(response => {
+                console.log(response.data);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('userId', response.data.user.pk);
+                localStorage.setItem('tokenValidFrom', new Date());
+                dispatch(authSuccess(response.data.token, response.data.user.id))
+            })
+            .catch(error => {
+                dispatch(authFail(error.response.data.error))
+            })
+
     }
 }
 
