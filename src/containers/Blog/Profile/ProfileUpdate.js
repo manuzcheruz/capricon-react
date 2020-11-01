@@ -41,6 +41,10 @@ class ProfileUpdate extends Component {
         this.props.onProfileUpdate(this.props.values)
     }
 
+    onProfileUpdateCancel = () => {
+        this.props.history.push('/author/')
+    }
+
     render() {
         const userId = +localStorage.getItem('userId')
 
@@ -76,7 +80,7 @@ class ProfileUpdate extends Component {
                 {form}
                 <h5 className="text-light text-center" style={{marginTop: '10px'}}>or</h5>
                 <div className="text-center" style={{paddingTop: '10px'}}>
-                    <Button style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
+                    <Button onClick={this.onProfileUpdateCancel} style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
                         Cancel
                     </Button>
                 </div>
@@ -102,7 +106,7 @@ export default connect(mapStateToProps, mapPropsToDispatch)(withFormik({
     mapPropsToValues: () => ({
         profile_picture: '',
         profile_bg: '',
-        description: ''
+        description: 'testing'
     }),
     validationSchema: Yup.object().shape({
         profile_picture: Yup.string()

@@ -7,10 +7,6 @@ import {
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
@@ -21,51 +17,41 @@ import {
 
 class Toolbar extends Component {
     state = {
-        isOpen: false,
-        setIsOpen: false
+        isOpen: false
     }
 
     toggle = () => {
-        this.setState({isOpen: true, setIsOpen: true});
+        this.setState({isOpen: !this.state.isOpen});
     }
 
     render () {
         return (
             <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
-        <NavbarToggler onClick={() => this.toggle} />
-        <Collapse isOpen={this.stateisOpen} navbar>
+      <Navbar style={{backgroundColor: '#092e42'}} className="fixed-top" expand="md">
+        <NavbarBrand className="text-capitalize text-light font-weight-bold" href="/">capricon</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} style={{border: '2px solid #092e42'}}>
+          <span style={{backgroundImage: "url('https://mdbootstrap.com/img/svg/hamburger9.svg?color=FF2C00')"}} class="navbar-toggler-icon"></span>
+        </NavbarToggler>
+        <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink className="text-light" href="/components/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              <NavLink className="text-light" href="/">Categories</NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Reset
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <NavItem>
+              <NavLink className="text-light" href="/">Profile</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="text-light" href="/">Logout</NavLink>
+            </NavItem>
           </Nav>
           <InputGroup>
         <InputGroupAddon addonType="prepend">
           <InputGroupText>@</InputGroupText>
         </InputGroupAddon>
-        <Input placeholder="username" />
+        <Input placeholder="Search ..." />
       </InputGroup>
         </Collapse>
       </Navbar>

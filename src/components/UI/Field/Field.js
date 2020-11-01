@@ -6,10 +6,10 @@ import {
 import { connect } from 'react-redux';
 
 const Field = (props) => {
-    const userId = 1
-    console.log(props);
+    console.log(props.authors);
+    const userId = +localStorage.getItem('userId')
     let formField = ''
-    if (props.elementName === 'input' ) {
+    if (props.elementName === 'input') {
         formField = <FormGroup>
             <Label className="text-light">
                 {props.label}
@@ -43,7 +43,26 @@ const Field = (props) => {
           {props.placeholder}
         </Label>
       </FormGroup>
-    } else if (props.elementName === 'textarea'){
+    } else if (props.elementName === 'textarea' && props.update === 'yes'){
+        formField = <FormGroup>
+            <Label className="text-light">
+                {props.label}
+            </Label>
+            {props.authors.filter(item => item.id === userId).map((author, i) => {
+                return <Input
+                type={props.elementType} 
+                value={author.description}
+                rows='8'
+                required
+                name={props.name}
+                id={props.name}
+                placeholder={props.placeholder}
+                onChange={props.onChange} />
+            })}
+            {(props.touched && props.errors[props.name]) && <small className="text-danger">{props.errors[props.name]}</small>}
+            
+        </FormGroup>
+    } else if (props.elementName === 'textarea') {
         formField = <FormGroup>
             <Label className="text-light">
                 {props.label}
