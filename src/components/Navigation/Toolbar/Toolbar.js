@@ -30,7 +30,7 @@ class Toolbar extends Component {
       <Navbar style={{backgroundColor: '#092e42'}} className="fixed-top" expand="md">
         <NavbarBrand className="text-capitalize text-light font-weight-bold" href="/">capricon</NavbarBrand>
         <NavbarToggler onClick={this.toggle} style={{border: '2px solid #092e42'}}>
-          <span style={{backgroundImage: "url('https://mdbootstrap.com/img/svg/hamburger9.svg?color=FF2C00')"}} class="navbar-toggler-icon"></span>
+          <span style={{backgroundImage: "url('https://mdbootstrap.com/img/svg/hamburger7.svg?color=ffffff')"}} class="navbar-toggler-icon"></span>
         </NavbarToggler>
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
