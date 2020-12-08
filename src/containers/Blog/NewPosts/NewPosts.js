@@ -49,7 +49,8 @@ class NewPosts extends Component {
 
     postHandler = event => {
         event.preventDefault()
-        this.props.onCreateNewPost(this.props.vaues);
+        alert('submited')
+        this.props.onCreateNewPost(this.props.values);
     }
 
     
@@ -63,7 +64,7 @@ class NewPosts extends Component {
         if (!this.props.authStart) {
         form = <div>
                 <h5 className="text-light text-center">Create an article {this.props.users.filter(item => item.id === userId).map((user, i) => (<span key={i}>{user.username}</span>))}</h5>
-                <Form onSubmit={this.props.handleSubmit}>
+                <Form onSubmit={e => this.postHandler(e)}>
                     {fields.map((field, i) => {
                         return (
                             <Field 
@@ -103,7 +104,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCreateNewPost: () => dispatch(actions.initNewPost())
+        onCreateNewPost: (data) => dispatch(actions.initNewPost(data))
     }
 }
 

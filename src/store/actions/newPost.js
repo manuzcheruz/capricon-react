@@ -22,28 +22,23 @@ export const newPostFail = error => {
 }
 
 // posting the 
-export const initNewPost = () => {
+export const initNewPost = (data) => {
     return dispatch => {
         dispatch(newPostStart());
-        const url = '/rest-api/posts/'
-        const data = {
-            title: 'test',
-            categories: 1,
-            author: 1,
-            content: 'hehe',
-            thumbnail: 'https://django-fancy-blog.s3.amazonaws.com/bomb.png?AWSAccessKeyId=AKIA364OVDU2NC4O6GSS&Signature=HlhNU5DVQxwk5%2FPyYypJsFDEpDQ%3D&Expires=1604149715'
-        }
-        const headers = {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-        console.log(headers);
-        axios.post(url, data, headers )
+        const url = 'http://127.0.0.1:8000/api-v1/posts/'
+        console.log(JSON.stringify(data));
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': "JWT " + localStorage.getItem('token')},
+            body: JSON.stringify(data)
+        })
             .then(response => {
-                console.log(response.data);
+                console.log(response);
                 dispatch(newPostSuccess(data));
             })
             .catch(error => {
-                console.log(error.response.data.detail);
+                console.log(error);
                 dispatch(newPostFail(error.response.data.error))
             })
     }

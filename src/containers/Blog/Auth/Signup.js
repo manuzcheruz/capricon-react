@@ -54,6 +54,10 @@ class Signup extends Component {
     }
     
     render() {
+        if (localStorage.getItem('token')) {
+            this.props.history.push('/');
+        }
+        
         let form = <div className="text-center">
                 <Spinner />
             </div>

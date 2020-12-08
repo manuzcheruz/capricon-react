@@ -41,6 +41,10 @@ class Signin extends Component {
     }
 
     render() {
+        if (localStorage.getItem('token')) {
+            this.props.history.push('/');
+        }
+
         let form = <div className="text-center">
                 <Spinner />
             </div>
@@ -87,7 +91,7 @@ class Signin extends Component {
 const mapStateToProps = state => {
     return {
         authStarted: state.auth.authStart,
-        isSignInForm: state.auth.switchForm !== null
+        isSignInForm: state.auth.switchForm !== null,
     }
 }
 
