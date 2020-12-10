@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
+import ReactTimeAgo from 'react-time-ago'
 
 import {
     Row,
@@ -15,8 +17,8 @@ const post1 = (props) => {
     let posts = <h1>cannot load post!</h1>
     // fetch active category id if there is
     if (props.categoryId) {
-        posts = props.posts.filter(item => item.catId === props.categoryId).slice(0,5).map(pst => {
-            return <Card key={pst.id} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+        posts = props.posts.map(pst => {
+            return <Card key={pst.created_on} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                             <CardBody style={{padding: '1px'}}>
                                 <Row>
                                     <Col xs="4">
@@ -28,7 +30,7 @@ const post1 = (props) => {
                                             <Col xs="6">
                                                 <CardSubtitle className="text-left text-light">
                                                     <small className="text-muted text-capitalize">
-                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
+                                                        {}
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
@@ -46,8 +48,8 @@ const post1 = (props) => {
                         </Card>
         })
     } else if (props.authorId) {
-        posts = props.posts.filter(item => item.authorId === props.authorId).slice(0,5).map(pst => {
-            return <Card key={pst.id} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+        posts = props.posts.map(pst => {
+            return <Card key={pst.created_on} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                             <CardBody style={{padding: '1px'}}>
                                 <Row>
                                     <Col xs="4">
@@ -77,8 +79,9 @@ const post1 = (props) => {
                         </Card>
         })
     } else {
-        posts = props.posts.slice(0,5).map(pst => {
-            return <Card key={pst.id} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+        posts = props.posts.map(pst => {
+            return <Link key={pst.created_on} to={"/posts/" + pst.id}>
+            <Card onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                             <CardBody style={{padding: '1px'}}>
                                 <Row>
                                     <Col xs="4">
@@ -90,14 +93,14 @@ const post1 = (props) => {
                                             <Col xs="6">
                                                 <CardSubtitle className="text-left text-light">
                                                     <small className="text-muted text-capitalize">
-                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
+                                                        {pst.categories.title}
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
                                             <Col xs="6">
                                                 <CardSubtitle className="text-right text-light">
                                                     <small>
-                                                        2 hrs ago
+                                                        <ReactTimeAgo date={pst.created_on} locale="en-US"/>
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
@@ -106,6 +109,7 @@ const post1 = (props) => {
                                 </Row>
                             </CardBody>
                         </Card>
+            </Link>
         })
     }
     // use an if statement to check whether the cat id is present and use it to filter through the posts, else fetch all the posts

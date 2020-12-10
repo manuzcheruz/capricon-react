@@ -40,6 +40,20 @@ export const authLogout = (expiryTime) => {
     }
 }
 
+// check if the user is an author
+export const fetchUserAsAuthor = author => {
+    return {
+        type: actionTypes.FETCH_USER_AS_AUTHOR,
+        author: author
+    }
+}
+
+export const fetchUserAsAuthorFailed = () => {
+    return {
+        type: actionTypes.FETCH_USER_AS_AUTHOR_FAILED
+    }
+}
+
 // user signin
 export const initAuth = (data) => {
     return dispatch => {
@@ -50,8 +64,17 @@ export const initAuth = (data) => {
                 console.log(response.data);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('userId', response.data.user.pk);
+                localStorage.setItem('username', response.data.user.username);
                 localStorage.setItem('tokenValidFrom', new Date());
                 dispatch(authSuccess(response.data.token, response.data.user.id));
+                const authUrl = `authors/?postsLimit=0&&user__username=${response.data.user.username}`
+                axios.get(authUrl)
+                    .then(res => {
+                        dispatch(fetchUserAsAuthor(res.data))
+                    })
+                    .catch(err => {
+                        dispatch(fetchUserAsAuthorFailed(err.response.data.error))
+                    })
             })
             .catch(error => {
                 console.log(error.response.data);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import axios from '../../../axios';
 import { connect } from 'react-redux'; 
+import ReactTimeAgo from 'react-time-ago'
 
 import {Card, CardBody, CardTitle, CardText, CardSubtitle, Row, Col} from 'reactstrap';
 import Similar from '../../../components/Similar/Similar';
@@ -19,7 +20,7 @@ class FullPost extends Component {
 
     render () {
         let post = <h1>No post matching request</h1>
-        if (this.props.postId) {
+        if (this.props.posts) {
             post = <p style={{textAlign: 'center'}}>Loading...</p>;
         }
         if (this.props.posts) {
@@ -28,7 +29,7 @@ class FullPost extends Component {
                         <Card style={{height: '100%', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                             <CardBody>
                                 <CardSubtitle>
-                                    <small className="text-success text-uppercase">{this.props.categories.filter(item => item.id === post.catId).map(cat => cat.title)}
+                                    <small className="text-success text-uppercase">{post.categories.title}
                                     </small>
                                 </CardSubtitle>
                                 <CardTitle className="text-light" style={{paddingTop: '5px'}}>{post.title}</CardTitle>
@@ -37,7 +38,7 @@ class FullPost extends Component {
                                         <CardSubtitle className="text-left">
                                             <small className="text-muted">
                                                 Published by <span className="text-capitalize">
-                                                    {this.props.users.filter(item => item.id === post.authorId).map(item => item.username)}
+                                                    {post.author.user.username}
                                                 </span>
                                             </small>
                                         </CardSubtitle>
@@ -45,7 +46,7 @@ class FullPost extends Component {
                                     <Col xs="6">
                                         <CardSubtitle className="text-right">
                                             <small className="text-muted">
-                                                2 months ago
+                                                <ReactTimeAgo date={post.created_on} locale="en-US"/>
                                             </small>
                                         </CardSubtitle>
                                     </Col>
@@ -70,8 +71,8 @@ class FullPost extends Component {
 
 const mapStateToProps = state => {
     return {
-        postId: state.activePostId,
-        posts: state.posts,
+        postId: state.post.activePostId,
+        posts: state.post.posts,
         authors: state.authors,
         users: state.users,
         categories: state.categories

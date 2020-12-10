@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 import * as actionCreators from '../../store/actions/index';
 
 import {
-    Container, Row, Col, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardImgOverlay, Nav, NavItem, NavLink, Button
+    Container, Row, Col, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardImgOverlay, Button
 } from 'reactstrap';
 import Categories from '../Categories/Categories';
 import Author from '../Author/Author';
@@ -24,7 +26,7 @@ const homePage = props => {
     }
     
     const selectPostHandler = (id, catId) => {
-        props.history.push('/post/'); 
+        props.history.push('/posts/' + id); 
         props.onSelectPost(id);
         props.onSelectPostCategoryId(catId);
     } 
@@ -54,59 +56,57 @@ const homePage = props => {
         greeting = 'Good Evening'
     }
 
-    const userId = +localStorage.getItem('userId')
-
     let user = ''
-    if (localStorage.getItem('userId')) {
-        user = props.users.filter(item => item.id === userId).map((user, i) => {
-                        return <div key={i}>
-                                <Card onClick={() => selectProfile(user.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
-                                    <CardBody>
-                                        <Row>
-                                            <Col xs="6">
-                                                <CardTitle>
-                                                    <h2>Hi, <span className="text-muted text-capitalize">{user.username}</span></h2>
-                                                </CardTitle>
-                                                <CardSubtitle>
-                                                    {greeting}.
-                                                </CardSubtitle>
-                                            </Col>
-                                            <Col xs="6">
-                                                <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
-                                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={props.authors.filter(item => item.id === user.id).map(item => item.profile_picture)} alt="Card image cap"/>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
-                            </div>
-                    })
+    let loginBtn = <div className="text-center">
+                        <Button onClick={loginHandler} style={{marginTop: '15px'}} className="btn btn-primary">Login</Button>
+                </div>
+    if (localStorage.getItem('username') && props.author.length !== 0) {
+        user = props.author.map((author, i) => {
+        return <div key={i}>
+                <Card onClick={() => selectProfile(author.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                    <CardBody>
+                        <Row>
+                            <Col xs="6">
+                                <CardTitle>
+                                    <h2>Hi, <span className="text-muted text-capitalize">{author.user.username}</span></h2>
+                                </CardTitle>
+                                <CardSubtitle>
+                                    {greeting}.
+                                </CardSubtitle>
+                            </Col>
+                            <Col xs="6">
+                                <div style={{paddingLeft: '35px', paddingRight: '35px'}}>
+                                    <CardImg style={{borderRadius: '50%', height: '70px'}} width="100%" src={author.profile_picture} alt="Card image cap"/>
+                                </div>
+                            </Col>
+                        </Row>
+                    </CardBody>
+                </Card>
+                </div>})
     } else {
-        user = <div>
-                                <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
-                                    <CardBody>
-                                        <Row>
-                                            <Col xs="6">
-                                                <CardTitle>
-                                                    <h2>Hi, <span className="text-muted text-capitalize">... Doe</span></h2>
-                                                </CardTitle>
-                                                <CardSubtitle>
-                                                    {greeting}.
-                                                </CardSubtitle>
-                                            </Col>
-                                            <Col xs="6">
-                                                <div className="text-center">
-                                                    <Button onClick={loginHandler} style={{marginTop: '15px'}} className="btn btn-primary">Login</Button>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
-                            </div>
-    }
+            user = <div>
+                    <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                        <CardBody>
+                            <Row>
+                                <Col xs="6">
+                                    <CardTitle>
+                                        <h2>Hi, <span className="text-muted text-capitalize">{localStorage.getItem('username') ? `${localStorage.getItem('username')}` : "... Doe"}</span></h2>
+                                    </CardTitle>
+                                    <CardSubtitle>
+                                        {greeting}.
+                                    </CardSubtitle>
+                                </Col>
+                                <Col xs="6">
+                                    {!localStorage.getItem('username') && loginBtn}
+                                </Col>
+                            </Row>
+                        </CardBody>
+                    </Card>
+                    </div>
+    } 
 
     let homePage = props.error ? <h1>Failed to load page!</h1> : <Spinner />
-    if (props.pst) {
+    if (props.posts) {
         homePage = <div>
             <div className="Large">
                     <Row>
@@ -163,22 +163,11 @@ const homePage = props => {
                 <div className="Small">
                     {user}
 
-                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
-                        <h5 className="text-light font-weight-bold">
-                            Featured
-                        </h5>
-                    </div>
-                    {/* <div style={{marginLeft: '20px'}}>
-                        <div>
-                            <PostSmall1 selected={selectPostHandler}/>
-                        </div>
-                    </div> */}
-
                     <div style={{marginLeft: '20px', marginRight: '20px'}}>
                         <Row className="text-light">
                             <Col xs="6">
                                 <h5 className="font-weight-bold">
-                                    Popular
+                                    Featured
                                 </h5>
                             </Col>
                             <Col xs="6">
@@ -190,7 +179,7 @@ const homePage = props => {
                     </div>
 
                     <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
-                        {props.pst.slice(0,5).map(post => {
+                        {props.posts.filter(item => item.featured === true ).map(post => {
                             return (
                                 <div>
                                     <Card inverse key={post.id} style={{marginLeft: '18px', height: '250px', width: '150px', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '15px'}}>
@@ -251,23 +240,6 @@ const homePage = props => {
                             <PostSmall1 selected={selectPostHandler}/>
                         </div>
                     </div>
-        
-                    <div className="container" style={{position: 'fixed', bottom: '0', width: '100%'}}>
-                        <Nav pills>
-                            <NavItem>
-                            <NavLink href="#" active>home</NavLink>
-                            </NavItem>
-                            <NavItem>
-                            <NavLink href="#">cat</NavLink>
-                            </NavItem>
-                            <NavItem>
-                            <NavLink href="#">search</NavLink>
-                            </NavItem>
-                            <NavItem>
-                            <NavLink disabled href="#">hehe</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </div>
                     
                 </div>
                 </div>
@@ -283,15 +255,16 @@ const homePage = props => {
 
 const mapStateToProps = state => {
     return {
-        pst: state.post.posts,
+        posts: state.post.posts,
         cats: state.post.categories,
-        authors: state.post.authors,
+        author: state.auth.author,
         users: state.post.users,
-        error: state.post.error
+        error: state.post.error,
+        test: state.auth.test
     }
 }
 
-const dispatchPropsToState = dispatch => {
+const mapPropsToDispatch = dispatch => {
     return {
         onSelectPost: (id) => dispatch(actionCreators.activePostId(id)),
         onSelectPostCategoryId: (id) => dispatch(actionCreators.activePostCategoryId(id)),
@@ -300,4 +273,4 @@ const dispatchPropsToState = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, dispatchPropsToState)(homePage);
+export default connect(mapStateToProps, mapPropsToDispatch)(homePage);

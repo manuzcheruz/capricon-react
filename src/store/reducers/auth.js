@@ -5,11 +5,13 @@ const initialState = {
     userId: null,
     authStart: null,
     authError: null,
-    switchForm: false
+    switchForm: false,
+    author: [],
+    authorError: null
 }
 
 const reducer = (state = initialState, action) => {
-    switch (action.actionTypes) {
+    switch (action.type) {
         case actionTypes.AUTH_START:
             return {
                 ...state,
@@ -37,6 +39,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 switchForm: !state.switchForm
+            }
+        case actionTypes.FETCH_USER_AS_AUTHOR:
+            return {
+                ...state,
+                author: action.author
+            }
+        case actionTypes.FETCH_USER_AS_AUTHOR_FAILED:
+            return {
+                ...state,
+                author: action.error
             }
         default:
             return state;

@@ -19,9 +19,11 @@ export const fetchPostsFailed = () => {
 // async code to fetch posts
 export const initPosts = dispatch => {
     return dispatch => {
-        axios.get('/rest-api/posts/')
+        axios.get('posts/?limit=10')
             .then(response => {
-                dispatch(fetchPosts(response.data));
+                // console.log(response.data.results);
+                // dispatch next url to redux so as to use when a user wants to load more posts
+                dispatch(fetchPosts(response.data.results));
             })
             .catch(error => {
                 dispatch(fetchPostsFailed());
@@ -46,7 +48,7 @@ export const fetchCategoriesFailed = () => {
 
 export const initCategories = dispatch => {
     return dispatch => {
-        axios.get('/rest-api/categories')
+        axios.get('categories/?postsLimit=0')
             .then(response => {
                 dispatch(fetchCategories(response.data));
             })
@@ -70,9 +72,10 @@ export const fetchAuthorsFailed = () => {
     }
 }
 
+// no need to fetch authors since the api's have them nested
 export const initAuthors = dispatch => {
     return dispatch => {
-        axios.get('/rest-api/authors')
+        axios.get('authors')
             .then(response => {
                 dispatch(fetchAuthors(response.data));
             })
@@ -108,7 +111,7 @@ export const activePostFetchFailed = () => {
 // async to run code for fetching active post
 export const initActivePost = (id, dispatch) => {
     return dispatch => {
-        axios.get('/rest-api/posts/' + id)
+        axios.get('posts/' + id)
             .then(response => {
                 dispatch(fetchActivePost(response.data));
             })
@@ -158,7 +161,7 @@ export const fetchUsersFailed = () => {
 // async function to get rest api
 export const initUsers = dispatch => {
     return dispatch => {
-        axios.get('/users')
+        axios.get('users')
             .then(response => {
                 dispatch(fetchUsers(response.data))
             })

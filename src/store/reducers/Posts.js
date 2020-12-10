@@ -7,7 +7,7 @@ const initialState = {
     users: [],
     activePostId: null,
     activePost: null,
-    error: true,
+    error: false,
     activePostError: false,
     activeCategoryId: null,
     activePostCategoryId: null,
@@ -17,17 +17,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_POSTS:
-
-        let fetchedPosts = action.posts
-
-        // console.log(JSON.stringify(fetchedPosts, null, 2));
-
-        for (let post of fetchedPosts){
-            let id = +post.categories[0].split('/').slice(-2, -1)
-            post.catId = id
-            let authorId = +post.author.split('/').slice(-2,-1)
-            post.authorId = authorId
-        }
+            let fetchedPosts = action.posts
             return {
                 ...state,
                 posts: state.posts.concat(fetchedPosts)
