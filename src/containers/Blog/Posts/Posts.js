@@ -15,6 +15,7 @@ class Posts extends Component {
         this.props.fetchAuthors();
         this.props.fetchUsers();
         this.props.setCatIdToNull();
+        this.props.fetchFeatured();
     }
 
     selectPostHandler = (id) => {
@@ -45,7 +46,8 @@ const dispatchStateToProps = dispatch => {
         fetchCats: () => dispatch(actionCreators.initCategories()),
         fetchAuthors: () => dispatch(actionCreators.initAuthors()),
         fetchUsers: () => dispatch(actionCreators.initUsers()),
-        setCatIdToNull: () => dispatch(actionCreators.setCatIdToNull())
+        setCatIdToNull: () => dispatch(actionCreators.setCatIdToNull()),
+        fetchFeatured: () => dispatch(actionCreators.initFeaturedPosts())
     }
 }
 

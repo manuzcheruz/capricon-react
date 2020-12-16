@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    switch (action.actionTypes) {
+    switch (action.type) {
         case actionTypes.NEW_POST_START:
             return {
                 ...state,

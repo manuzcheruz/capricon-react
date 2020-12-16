@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import ReactTimeAgo from 'react-time-ago'
 
 import * as actionCreators from '../../store/actions/index';
 
@@ -88,7 +89,7 @@ const homePage = props => {
                     <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                         <CardBody>
                             <Row>
-                                <Col xs="6">
+                                <Col xs="8">
                                     <CardTitle>
                                         <h2>Hi, <span className="text-muted text-capitalize">{localStorage.getItem('username') ? `${localStorage.getItem('username')}` : "... Doe"}</span></h2>
                                     </CardTitle>
@@ -96,7 +97,7 @@ const homePage = props => {
                                         {greeting}.
                                     </CardSubtitle>
                                 </Col>
-                                <Col xs="6">
+                                <Col xs="4">
                                     {!localStorage.getItem('username') && loginBtn}
                                 </Col>
                             </Row>
@@ -163,7 +164,26 @@ const homePage = props => {
                 <div className="Small">
                     {user}
 
-                    <div style={{marginLeft: '20px', marginRight: '20px'}}>
+                    <div style={{marginLeft: '20px', paddingTop: '15px'}}>
+                        <h5 className="text-light font-weight-bold">
+                            Explore 
+                        </h5>
+                    </div>
+
+                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden', marginTop: '20px'}}>
+                        {props.cats.map(cat => {
+                            return <div>
+                                <Card onClick={() => onSelectCatHandler(cat.id)} inverse key={cat.id} style={{marginLeft: '20px', height:'60px', width: '60px', borderRadius: '10px', padding: '0px'}}>
+                                    <CardImg style={{width:'100%', height: '100%', padding: '0px', borderRadius: '10px'}} src={cat.thumbnail} alt="Card image cap"/>
+                                </Card>
+                                <div className="text-center">
+                                    <small className="text-light">{cat.title}</small>
+                                </div>
+                            </div>
+                        })}
+                    </div>
+
+                    <div style={{marginLeft: '20px', marginRight: '20px', marginTop: '20px'}}>
                         <Row className="text-light">
                             <Col xs="6">
                                 <h5 className="font-weight-bold">
@@ -178,31 +198,17 @@ const homePage = props => {
                         </Row>
                     </div>
 
-                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
-                        {props.posts.filter(item => item.featured === true ).map(post => {
+                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden', marginTop: '20px'}}>
+                        {props.featured.map(post => {
                             return (
                                 <div>
-                                    <Card inverse key={post.id} style={{marginLeft: '18px', height: '250px', width: '150px', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: '15px'}}>
-                                        <CardImg style={{borderRadius: '15px'}} width="100%" src={post.thumbnail} alt="Card image cap"/>
-                                        <CardImgOverlay>
-                                            <Card style={{border: '1px solid white'}}>
-                                                <CardTitle className="text-dark"><small>{post.title}</small></CardTitle>
-                                                <Row>
-                                                    <Col xs="5">
-                                                        <CardSubtitle className="text-left text-danger">
-                                                            <small>
-                                                                BUSINESS
-                                                            </small>
-                                                        </CardSubtitle>
-                                                    </Col>
-                                                    <Col xs="7">
-                                                        <CardSubtitle className="text-right text-secondary">
-                                                            <small>
-                                                                March 12, 2020
-                                                            </small>
-                                                        </CardSubtitle>
-                                                    </Col>
-                                                </Row>
+                                    <Card inverse key={post.id} style={{marginLeft: '18px', height: '200px', width: '150px', borderRadius: '15px', padding: '0px'}}>
+                                        <CardImg style={{borderRadius: '15px', height: '100%'}} src={post.thumbnail} alt="Card image cap"/>
+                                        <CardImgOverlay style={{marginTop: '130px', padding: '0px'}}>
+                                            <Card style={{marginLeft: '5px', marginRight: '5px', backgroundColor: 'rgba(245, 245, 245, 0.6)', borderRadius: '10px', height: '60px'}}>
+                                                <CardTitle className="text-dark" style={{margin: '5px'}}>
+                                                    <small className="text-lowercase font-weight-bold">{post.title}</small>
+                                                </CardTitle>
                                             </Card>
                                         </CardImgOverlay>
                                     </Card>
@@ -211,31 +217,12 @@ const homePage = props => {
                         })}
                     </div>
 
-                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
-                        <h5 className="text-light font-weight-bold">
-                            Categories
-                        </h5>
-                    </div>
-
-                    <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden'}}>
-                        {props.cats.map(cat => {
-                            return <div>
-                                <Card onClick={() => onSelectCatHandler(cat.id)} inverse key={cat.id} style={{marginLeft: '20px', height: '80px', width: '100px'}}>
-                                    <CardImg style={{borderRadius: '5px'}} width="100%" src={cat.thumbnail} alt="Card image cap"/>
-                                </Card>
-                                <div className="text-center">
-                                    <small className="text-light">{cat.title}</small>
-                                </div>
-                            </div>
-                        })}
-                    </div>
-
-                    <div style={{marginLeft: '20px', paddingTop: '10px'}}>
+                    <div style={{marginLeft: '20px', marginTop: '20px'}}>
                         <h5 className="text-light font-weight-bold">
                             Recent
                         </h5>
                     </div>
-                    <div style={{marginLeft: '20px', marginRight: '20px'}}>
+                    <div style={{marginLeft: '20px', marginRight: '20px', marginTop: '20px'}}>
                         <div>
                             <PostSmall1 selected={selectPostHandler}/>
                         </div>
@@ -260,7 +247,8 @@ const mapStateToProps = state => {
         author: state.auth.author,
         users: state.post.users,
         error: state.post.error,
-        test: state.auth.test
+        test: state.auth.test,
+        featured: state.featured.posts
     }
 }
 

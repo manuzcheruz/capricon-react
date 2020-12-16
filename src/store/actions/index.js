@@ -23,3 +23,6 @@ export {
 export {
     initProfileUpate
 } from './profile';
+export {
+    initFeaturedPosts
+} from './featured';

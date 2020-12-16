@@ -10,7 +10,8 @@ import {
     CardImg,
     CardBody,
     CardTitle,
-    CardSubtitle
+    CardSubtitle,
+    CardText
 } from 'reactstrap';
 
 const post1 = (props) => {
@@ -50,10 +51,12 @@ const post1 = (props) => {
     } else if (props.authorId) {
         posts = props.posts.map(pst => {
             return <Card key={pst.created_on} onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
-                            <CardBody style={{padding: '1px'}}>
+                            <CardBody style={{padding: '1px', height: '70px'}}>
                                 <Row>
                                     <Col xs="4">
-                                        <CardImg style={{borderRadius: '10px', height: '90px'}} width="100%" src={pst.thumbnail} alt="Card image cap"/>
+                                        <Card inverse style={{marginLeft: '20px', height:'60px', width: '60px', borderRadius: '10px', padding: '0px'}}>
+                                            <CardImg style={{width:'100%', height: '100%', padding: '0px', borderRadius: '10px'}} src={pst.thumbnail} alt="Card image cap"/>
+                                        </Card>
                                     </Col>
                                     <Col xs="8" style={{padding: '0px'}}>
                                         <CardTitle className="text-light"><small>{pst.title}</small></CardTitle>
@@ -61,7 +64,6 @@ const post1 = (props) => {
                                             <Col xs="6">
                                                 <CardSubtitle className="text-left text-light">
                                                     <small className="text-muted text-capitalize">
-                                                        {props.categories.filter(item => item.id === pst.catId).map(item => item.title)}
                                                     </small>
                                                 </CardSubtitle>
                                             </Col>
@@ -81,32 +83,23 @@ const post1 = (props) => {
     } else {
         posts = props.posts.map(pst => {
             return <Link key={pst.created_on} to={"/posts/" + pst.id}>
-            <Card onClick={() => props.selected(pst.id, pst.catId)} style={{height: '110px', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+            <Card onClick={() => props.selected(pst.id, pst.catId)} style={{backgroundColor: '#092e42', border: '2px solid #092e42', marginBottom: '10px'}}>
                             <CardBody style={{padding: '1px'}}>
                                 <Row>
-                                    <Col xs="4">
-                                        <CardImg style={{borderRadius: '10px', height: '90px'}} width="100%" src={pst.thumbnail} alt="Card image cap"/>
+                                    <Col xs="3">
+                                        <CardImg style={{borderRadius: '10px', height: '60px', width: '60px'}} width="100%" src={pst.thumbnail} alt="Card image cap"/>
                                     </Col>
-                                    <Col xs="8" style={{padding: '0px'}}>
-                                        <CardTitle className="text-light"><small>{pst.title}</small></CardTitle>
-                                        <Row>
-                                            <Col xs="6">
-                                                <CardSubtitle className="text-left text-light">
-                                                    <small className="text-muted text-capitalize">
-                                                        {pst.categories.title}
-                                                    </small>
-                                                </CardSubtitle>
-                                            </Col>
-                                            <Col xs="6">
-                                                <CardSubtitle className="text-right text-light">
-                                                    <small>
-                                                        <ReactTimeAgo date={pst.created_on} locale="en-US"/>
-                                                    </small>
-                                                </CardSubtitle>
-                                            </Col>
-                                        </Row>
+                                    <Col xs="9" style={{padding: '0px'}}>
+                                        <CardTitle className="text-light"><h5 className="text-lowercase font-weight-bold">{pst.title}</h5></CardTitle>
+                                        <span className="text-muted">{pst.categories.title}</span>
+                                        <span className="text-muted" style={{marginLeft: '10px'}}><ReactTimeAgo date={pst.created_on} locale="en-US"/></span>
                                     </Col>
                                 </Row>
+                            </CardBody>
+                            <CardBody style={{padding: '0px', marginTop: '10px'}}>
+                                <CardText className="text-light">
+                                    <div dangerouslySetInnerHTML={{__html:pst.content.slice(0, 80)}}/>
+                                </CardText>
                             </CardBody>
                         </Card>
             </Link>

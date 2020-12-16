@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    switch (action.actionTypes) {
+    switch (action.type) {
         case actionTypes.UPDATE_PROFILE_START:
             return {
                 ...state,
