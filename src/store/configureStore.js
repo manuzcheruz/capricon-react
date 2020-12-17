@@ -8,6 +8,7 @@ import authReducer from '../store/reducers/auth';
 import newPostReducer from '../store/reducers/newPost';
 import profileReducer from '../store/reducers/profile';
 import featuredReducer from '../store/reducers/featured';
+import categoryReducer from '../store/reducers/category';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     newPost: newPostReducer,
     profile: profileReducer,
-    featured: featuredReducer
+    featured: featuredReducer,
+    category: categoryReducer
 })
 
 const persistConfig = {

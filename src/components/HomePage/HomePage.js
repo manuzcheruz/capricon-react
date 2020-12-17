@@ -20,6 +20,7 @@ import Subscribe from '../Subscribe/Subscribe';
 import Spinner from '../UI/Spinner/Spinner';
 import PostSmall1 from '../Post/PostSmall/PostSmall1';
 import './HomePage.css';
+import { Link } from 'react-router-dom';
 
 const homePage = props => {
     const loginHandler = () => {
@@ -36,9 +37,10 @@ const homePage = props => {
         props.history.push('/author/');
     }
 
-    const onSelectCatHandler = id => {
-        props.history.push('/category/');
-        props.onSelectCategory(id);
+    const onSelectCatHandler = (uri, id) => {
+        props.history.push('/category/' + id);
+        let limit = 10
+        props.onSelectCategory(uri, limit);
     }
 
     // redirecting to author profile when the username is clicked
@@ -172,14 +174,14 @@ const homePage = props => {
 
                     <div style={{display:'flex', flexDirection:'row', overflowX:'auto', overflowY: 'hidden', marginTop: '20px'}}>
                         {props.cats.map(cat => {
-                            return <div>
-                                <Card onClick={() => onSelectCatHandler(cat.id)} inverse key={cat.id} style={{marginLeft: '20px', height:'60px', width: '60px', borderRadius: '10px', padding: '0px'}}>
+                            return <Link key={cat.id} to={"/category/" + cat.id}>
+                                <Card onClick={() => onSelectCatHandler(cat.uri, cat.id)} inverse style={{marginLeft: '20px', height:'60px', width: '60px', borderRadius: '10px', padding: '0px'}}>
                                     <CardImg style={{width:'100%', height: '100%', padding: '0px', borderRadius: '10px'}} src={cat.thumbnail} alt="Card image cap"/>
                                 </Card>
                                 <div className="text-center">
                                     <small className="text-light">{cat.title}</small>
                                 </div>
-                            </div>
+                            </Link>
                         })}
                     </div>
 
@@ -224,7 +226,14 @@ const homePage = props => {
                     </div>
                     <div style={{marginLeft: '20px', marginRight: '20px', marginTop: '20px'}}>
                         <div>
-                            <PostSmall1 selected={selectPostHandler}/>
+                            {props.posts.map(item => {
+                                return (
+                                    <PostSmall1 
+                                        key={item.title}
+                                        selected={selectPostHandler}
+                                        {...item}/>
+                                )
+                            })}
                         </div>
                     </div>
                     
@@ -244,10 +253,7 @@ const mapStateToProps = state => {
     return {
         posts: state.post.posts,
         cats: state.post.categories,
-        author: state.auth.author,
-        users: state.post.users,
         error: state.post.error,
-        test: state.auth.test,
         featured: state.featured.posts
     }
 }
@@ -256,7 +262,7 @@ const mapPropsToDispatch = dispatch => {
     return {
         onSelectPost: (id) => dispatch(actionCreators.activePostId(id)),
         onSelectPostCategoryId: (id) => dispatch(actionCreators.activePostCategoryId(id)),
-        onSelectCategory: (id) => dispatch(actionCreators.activeCategoryId(id)),
+        onSelectCategory: (uri, limit) => dispatch(actionCreators.initCategory(uri, limit)),
         onSelectProfile: (id) => dispatch(actionCreators.selectProfileId(id))
     }
 }

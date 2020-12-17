@@ -26,3 +26,6 @@ export {
 export {
     initFeaturedPosts
 } from './featured';
+export {
+    initCategory
+} from './category';

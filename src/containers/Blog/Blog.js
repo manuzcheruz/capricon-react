@@ -24,7 +24,7 @@ class Blog extends Component {
                     {this.state.auth ? <Route path="/new-post" render={() => <Suspense fallback={<h1>loading...</h1>}><LazyNewPost /></Suspense>} /> : null}
                     {/* <Route path="/home-page" exact component={HomePage}/> */}
                     <Route path="/posts/:id" exact component={FullPost}/>
-                    <Route path="/category/" exact component={CategoryPage}/>
+                    <Route path="/category/:id" exact component={CategoryPage}/>
                     <Route path="/author/" exact component={ProfilePage} />
                     <Route path="/new-post" exact component={NewPosts} />
                     <Route path="/signin" exact component={Signin} />
