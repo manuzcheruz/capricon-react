@@ -44,9 +44,10 @@ const homePage = props => {
     }
 
     // redirecting to author profile when the username is clicked
-    const selectProfile = id => {
-        props.history.push('/author/');
-        props.onSelectProfile(id);
+    const selectProfile = uri => {
+        // props.history.push('/author/');
+        const limit = 10
+        props.onSelectProfile(uri, limit);
     }
 
     const time = new Date().getHours();
@@ -64,9 +65,9 @@ const homePage = props => {
                         <Button onClick={loginHandler} style={{marginTop: '15px'}} className="btn btn-primary">Login</Button>
                 </div>
     if (localStorage.getItem('username') && props.author.length !== 0) {
-        user = props.author.map((author, i) => {
-        return <div key={i}>
-                <Card onClick={() => selectProfile(author.id)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+        user = props.author.map((author) => {
+        return <Link to={"/author/" + author.user.username} key={author.user.username}>
+                <Card onClick={() => selectProfile(author.uri)} className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
                     <CardBody>
                         <Row>
                             <Col xs="6">
@@ -85,7 +86,7 @@ const homePage = props => {
                         </Row>
                     </CardBody>
                 </Card>
-                </div>})
+                </Link>})
     } else {
             user = <div>
                     <Card className="text-light" style={{backgroundColor: '#092e42', border: '2px solid #092e42'}}>
@@ -254,16 +255,17 @@ const mapStateToProps = state => {
         posts: state.post.posts,
         cats: state.post.categories,
         error: state.post.error,
-        featured: state.featured.posts
+        featured: state.featured.posts,
+        author: state.auth.author
     }
 }
 
 const mapPropsToDispatch = dispatch => {
     return {
-        onSelectPost: (id) => dispatch(actionCreators.activePostId(id)),
-        onSelectPostCategoryId: (id) => dispatch(actionCreators.activePostCategoryId(id)),
+        onSelectPost: id => dispatch(actionCreators.activePostId(id)),
+        onSelectPostCategoryId: id => dispatch(actionCreators.activePostCategoryId(id)),
         onSelectCategory: (uri, limit) => dispatch(actionCreators.initCategory(uri, limit)),
-        onSelectProfile: (id) => dispatch(actionCreators.selectProfileId(id))
+        onSelectProfile: (uri, limit) => dispatch(actionCreators.initSelectAuthor(uri, limit))
     }
 }
 

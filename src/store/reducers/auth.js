@@ -43,7 +43,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_USER_AS_AUTHOR:
             return {
                 ...state,
-                author: action.author
+                author: state.author.concat(action.author)
             }
         case actionTypes.FETCH_USER_AS_AUTHOR_FAILED:
             return {

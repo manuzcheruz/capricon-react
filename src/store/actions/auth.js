@@ -77,8 +77,8 @@ export const initAuth = (data) => {
                     })
             })
             .catch(error => {
-                console.log(error.response.data);
-                dispatch(authFail(error.response.data.error))
+                console.log(error.response);
+                dispatch(authFail(error.response))
             })
     }
 }

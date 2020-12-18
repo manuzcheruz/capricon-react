@@ -13,7 +13,6 @@ import {
 } from 'reactstrap';
 
 const post1 = (props) => {
-    console.log(props);
     return (
         <Link to={"/posts/" + props.id}>
             <Card onClick={() => props.selected(props.id, props.catId)} style={{backgroundColor: '#092e42', border: '2px solid #092e42', marginBottom: '10px'}}>

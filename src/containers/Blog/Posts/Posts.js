@@ -12,9 +12,6 @@ class Posts extends Component {
     componentDidMount () {
         this.props.fetchPosts();
         this.props.fetchCats();
-        this.props.fetchAuthors();
-        this.props.fetchUsers();
-        this.props.setCatIdToNull();
         this.props.fetchFeatured();
     }
 
@@ -32,23 +29,12 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        pst: state.posts,
-        a: state.authors,
-        c: state.categories
-    }
-}
-
 const dispatchStateToProps = dispatch => {
     return {
         fetchPosts: () => dispatch(actionCreators.initPosts()),
         fetchCats: () => dispatch(actionCreators.initCategories()),
-        fetchAuthors: () => dispatch(actionCreators.initAuthors()),
-        fetchUsers: () => dispatch(actionCreators.initUsers()),
-        setCatIdToNull: () => dispatch(actionCreators.setCatIdToNull()),
         fetchFeatured: () => dispatch(actionCreators.initFeaturedPosts())
     }
 }
 
-export default connect(mapStateToProps, dispatchStateToProps)(Posts);
+export default connect(null, dispatchStateToProps)(Posts);

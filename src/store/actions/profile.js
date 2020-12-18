@@ -1,13 +1,52 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
+// author profile 
+export const fetchAuthorProfileStart = () => {
+    return {
+        type: actionTypes.FETCH_AUTHOR_PROFILE_START,
+    }
+}
+
+export const fetchAuthorProfileSuccess = author => {
+    return {
+        type: actionTypes.FETCH_AUTHOR_PROFILE_SUCCESS,
+        author: author
+    }
+}
+
+export const fetchAuthorProfileFail = error => {
+    return {
+        type: actionTypes.FETCH_AUTHOR_PROFILE_FAIL,
+        error: error
+    }
+}
+
+export const initSelectAuthor = (uri, limit, dispatch) => {
+    return dispatch => {
+        dispatch(fetchAuthorProfileStart())
+        const url = `${uri}?postsList=${limit}`
+        fetch(url)
+            .then(response => {
+                return response.json()
+            })
+            .then(responseData => {
+                dispatch(fetchAuthorProfileSuccess(responseData))
+            })
+            .catch(error => {
+                dispatch(fetchAuthorProfileFail(error))
+            })
+    }
+}
+
+// updating the author profile
 export const profileUpdateStart = () => {
     return {
         type: actionTypes.UPDATE_PROFILE_START
     }
 }
 
-export const profileUpdateSuccess = (profile) => {
+export const profileUpdateSuccess = profile => {
     return {
         type: actionTypes.UPDATE_PROFILE_SUCCESS,
         profile: profile
@@ -20,7 +59,6 @@ export const profileUpdateFail = error => {
         error: error
     }
 }
-// try to resuse this profile update in the creation of a new profile
 
 // posting the profile update
 export const initProfileUpate = (data) => {

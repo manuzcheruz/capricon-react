@@ -25,7 +25,7 @@ class Blog extends Component {
                     {/* <Route path="/home-page" exact component={HomePage}/> */}
                     <Route path="/posts/:id" exact component={FullPost}/>
                     <Route path="/category/:id" exact component={CategoryPage}/>
-                    <Route path="/author/" exact component={ProfilePage} />
+                    <Route path="/author/:username" exact component={ProfilePage} />
                     <Route path="/new-post" exact component={NewPosts} />
                     <Route path="/signin" exact component={Signin} />
                     <Route path="/signup" exact component={Signup} />

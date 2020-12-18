@@ -1,13 +1,33 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    profile: {},
-    updateStart: null,
+    author: [],
+    fetchAuthorStart: false,
+    fetchAuthorFail: null,
+    updatedAuthorProfile: [],
+    updateStart: false,
     updateFail: null
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_AUTHOR_PROFILE_START:
+            return {
+                ...state,
+                fetchAuthorStart: true
+            }
+        case actionTypes.FETCH_AUTHOR_PROFILE_SUCCESS:
+            return {
+                ...state,
+                author: state.author.concat(action.author),
+                fetchAuthorStart: false
+            }
+        case actionTypes.FETCH_AUTHOR_PROFILE_FAIL:
+            return {
+                ...state,
+                updateFail: state.updateFail.push(action.error),
+                updateStart: false
+            }
         case actionTypes.UPDATE_PROFILE_START:
             return {
                 ...state,
@@ -16,13 +36,13 @@ const reducer = (state = initialState, action) => {
         case actionTypes.UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
-                profile: action.profile,
+                updatedAuthorProfile: state.updatedAuthorProfile.concat(action.profile),
                 updateStart: false
             }
         case actionTypes.UPDATE_PROFILE_FAIL:
             return {
                 ...state,
-                updateFail: action.error,
+                updateFail: state.updateFail.push(action.error),
                 updateStart: false
             }
         default:

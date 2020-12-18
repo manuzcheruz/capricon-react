@@ -158,7 +158,7 @@ export const fetchUsersFailed = () => {
     }
 }
 
-// async function to get rest api
+// async function to get users rest api
 export const initUsers = dispatch => {
     return dispatch => {
         axios.get('users')
@@ -168,13 +168,5 @@ export const initUsers = dispatch => {
             .catch(error => {
                 dispatch(fetchUsersFailed())
             })
-    }
-}
-
-// author profile id
-export const selectProfileId = id => {
-    return {
-        type: actionTypes.AUTHOR_PROFILE_ID,
-        id: id
     }
 }

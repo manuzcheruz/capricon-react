@@ -7,8 +7,7 @@ export {
     activeCategoryId,
     activePostCategoryId,
     setCatIdToNull,
-    initUsers,
-    selectProfileId
+    initUsers
 } from './posts';
 export {
     initAuth,
@@ -21,6 +20,7 @@ export {
     initNewPost
 } from './newPost';
 export {
+    initSelectAuthor,
     initProfileUpate
 } from './profile';
 export {
