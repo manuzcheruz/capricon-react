@@ -50,12 +50,17 @@ class NewPosts extends Component {
     postHandler = event => {
         event.preventDefault()
         alert('submited')
+        console.log(this.props);
         this.props.onCreateNewPost(this.props.values);
+    }
+
+    handleFileUpload = event => {
+        this.setState({'thumbnail': event.currentTarget.files[0]})
     }
 
     
     render() {
-        const userId = +localStorage.getItem('userId')
+        console.log(this.props.values);
 
         let form = <div className="text-center">
                 <Spinner />
@@ -63,17 +68,18 @@ class NewPosts extends Component {
 
         if (!this.props.authStart) {
         form = <div>
-                <h5 className="text-light text-center">Create an article {this.props.users.filter(item => item.id === userId).map((user, i) => (<span key={i}>{user.username}</span>))}</h5>
+                <h5 className="text-light text-center">Create an article {this.props.author.map(author => (<span key={author.user.username}>{author.user.username}</span>))}</h5>
                 <Form onSubmit={e => this.postHandler(e)}>
-                    {fields.map((field, i) => {
+                    {fields.map(field => {
                         return (
                             <Field 
                                 {...field}
                                 {...this.props}
-                                key={i}
+                                key={field.name}
                                 value={this.props.values[field.name]}
                                 name={field.name}
-                                onChange={this.props.handleChange}/>
+                                onChange={this.props.handleChange}
+                                handleFileUpload={this.props.handleFileUpload}/>
                         )
                     })}
                     <div className="text-center" style={{paddingTop: '10px'}}>
@@ -95,16 +101,14 @@ class NewPosts extends Component {
 
 const mapStateToProps = state => {
     return {
-        authors: state.post.authors,
-        users: state.post.users,
-        authorId: state.post.profileId,
+        author: state.profile.author,
         categories: state.post.categories
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCreateNewPost: (data) => dispatch(actions.initNewPost(data))
+        onCreateNewPost: data => dispatch(actions.initNewPost(data))
     }
 }
 

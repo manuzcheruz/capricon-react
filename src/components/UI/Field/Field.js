@@ -9,7 +9,7 @@ const Field = (props) => {
     console.log(props.authors);
     const userId = +localStorage.getItem('userId')
     let formField = ''
-    if (props.elementName === 'input') {
+    if (props.elementName === 'input' && props.name !== 'thumbnail') {
         formField = <FormGroup>
             <Label className="text-light">
                 {props.label}
@@ -75,6 +75,22 @@ const Field = (props) => {
                 id={props.name}
                 placeholder={props.placeholder}
                 onChange={props.onChange} />
+            {(props.touched && props.errors[props.name]) && <small className="text-danger">{props.errors[props.name]}</small>}
+            
+        </FormGroup>
+    } else if (props.name === 'thumbnail') {
+        formField = <FormGroup>
+            <Label className="text-light">
+                {props.label}
+            </Label>
+            <Input
+                type={props.elementType} 
+                rows='8'
+                required
+                name={props.name}
+                id={props.name}
+                accept="image/*"
+                onChange={props.handleFileUpload}/>
             {(props.touched && props.errors[props.name]) && <small className="text-danger">{props.errors[props.name]}</small>}
             
         </FormGroup>
