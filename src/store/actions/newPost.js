@@ -26,13 +26,14 @@ export const initNewPost = (data) => {
     return dispatch => {
         dispatch(newPostStart());
         const url = 'http://127.0.0.1:8000/api-v1/posts/'
-        console.log(JSON.stringify(data));
-        axios.post(url, {
+        console.log(data);
+        fetch(url, {
             method: 'POST',
             headers: {
                 'content-type': 'multipart/form-data',
-                'Authorization': "JWT " + localStorage.getItem('token')},
-            body: JSON.stringify(data)
+                'Authorization': "JWT " + localStorage.getItem('token')
+            },
+            body: data
         })
             .then(response => {
                 console.log(response);

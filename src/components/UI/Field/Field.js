@@ -29,7 +29,13 @@ const Field = (props) => {
         <Label className="text-light">
             {props.label}
         </Label>
-        <Input type="select" name="select" id="exampleSelect">
+        <Input 
+            type="select" 
+            name="select" 
+            id="exampleSelect"
+            onChange={props.setFieldValue} 
+            onBlur={props.setFieldTouched}
+            value={props.categories.id}>
             <option value="default">Select Category</option>
             {props.categories.map((cat, i) => {
                 return <option key={i} value={cat.id}>{cat.title}</option>
@@ -90,7 +96,9 @@ const Field = (props) => {
                 name={props.name}
                 id={props.name}
                 accept="image/*"
-                onChange={props.handleFileUpload}/>
+                onChange={event => {
+                    props.setFieldValue('thumbnail', event.currentTarget.files[0])
+                }}/>
             {(props.touched && props.errors[props.name]) && <small className="text-danger">{props.errors[props.name]}</small>}
             
         </FormGroup>

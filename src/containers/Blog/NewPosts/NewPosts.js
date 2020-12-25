@@ -16,7 +16,7 @@ const fields = [{
         placeholder: 'Enter your title'
     },
     {
-        name: 'password',
+        name: 'category',
         elementName: 'select',
         elementType: '',
         placeholder: '',
@@ -49,16 +49,12 @@ class NewPosts extends Component {
 
     postHandler = event => {
         event.preventDefault()
-        alert('submited')
-        console.log(this.props);
+        this.props.values.categories = '1'
+        this.props.values.content = 'just testing'
+        console.log(this.props.values);
         this.props.onCreateNewPost(this.props.values);
     }
 
-    handleFileUpload = event => {
-        this.setState({'thumbnail': event.currentTarget.files[0]})
-    }
-
-    
     render() {
         console.log(this.props.values);
 
@@ -78,8 +74,7 @@ class NewPosts extends Component {
                                 key={field.name}
                                 value={this.props.values[field.name]}
                                 name={field.name}
-                                onChange={this.props.handleChange}
-                                handleFileUpload={this.props.handleFileUpload}/>
+                                onChange={this.props.handleChange}/>
                         )
                     })}
                     <div className="text-center" style={{paddingTop: '10px'}}>
@@ -116,7 +111,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(withFormik({
     mapPropsToValues: () => ({
         title: '',
         categories: '',
-        author: '',
         thumbnail: '',
         featured: '',
         content: ''
