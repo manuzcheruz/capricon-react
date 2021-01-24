@@ -26,7 +26,7 @@ class FullPost extends Component {
         if (this.props.posts) {
             post = this.props.posts.filter(item => item.id === this.props.postId).map(post => {
                 return <div style={{paddingTop: '10px'}}>
-                        <Card style={{height: '100%', backgroundColor: '#092e42', border: '2px solid #092e42'}}>
+                        <Card style={{height: '100%', backgroundColor: 'white', border: '2px solid #092e42'}}>
                             <CardBody>
                                 <CardSubtitle>
                                     <small className="text-success text-uppercase">{post.categories.title}

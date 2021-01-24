@@ -179,7 +179,7 @@ const homePage = props => {
                                 <Card onClick={() => onSelectCatHandler(cat.uri, cat.id)} inverse style={{marginLeft: '20px', height:'60px', width: '60px', borderRadius: '10px', padding: '0px'}}>
                                     <CardImg style={{width:'100%', height: '100%', padding: '0px', borderRadius: '10px'}} src={cat.thumbnail} alt="Card image cap"/>
                                 </Card>
-                                <div className="text-center">
+                                <div className="text-center" style={{textAlign: 'center'}}>
                                     <small className="text-light">{cat.title}</small>
                                 </div>
                             </Link>
@@ -195,7 +195,7 @@ const homePage = props => {
                             </Col>
                             <Col xs="6">
                                 <small>
-                                    Sun, March 01, 2020
+                                    Sun, Jan 03, 2021
                                 </small>
                             </Col>
                         </Row>
@@ -205,7 +205,7 @@ const homePage = props => {
                         {props.featured.map(post => {
                             return (
                                 <div>
-                                    <Card inverse key={post.id} style={{marginLeft: '18px', height: '200px', width: '150px', borderRadius: '15px', padding: '0px'}}>
+                                    <Card inverse key={post.id} style={{marginLeft: '18px', height: '200px', width: '200px', borderRadius: '15px', padding: '0px'}}>
                                         <CardImg style={{borderRadius: '15px', height: '100%'}} src={post.thumbnail} alt="Card image cap"/>
                                         <CardImgOverlay style={{marginTop: '130px', padding: '0px'}}>
                                             <Card style={{marginLeft: '5px', marginRight: '5px', backgroundColor: 'rgba(245, 245, 245, 0.6)', borderRadius: '10px', height: '60px'}}>
@@ -243,7 +243,7 @@ const homePage = props => {
     }
 
     return (
-        <Container fluid={true} style={{padding: '0px'}}>
+        <Container fluid={true} style={{padding: '0px', paddingBottom: '200px'}}>
                 {homePage}
                 
             </Container>

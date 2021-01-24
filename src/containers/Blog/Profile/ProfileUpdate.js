@@ -76,7 +76,7 @@ class ProfileUpdate extends Component {
             </div>
         }
         return (
-            <div style={{padding: '10px', height: '100%'}}>
+            <div style={{padding: '10px', height: '100%', paddingBottom: '300px'}}>
                 {form}
                 <h5 className="text-light text-center" style={{marginTop: '10px'}}>or</h5>
                 <div className="text-center" style={{paddingTop: '10px'}}>

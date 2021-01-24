@@ -35,13 +35,13 @@ class Toolbar extends Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink className="text-light" href="/components/">Home</NavLink>
+              <NavLink className="text-light" href="/">Home</NavLink>
             </NavItem>
             <NavItem>
               <NavLink className="text-light" href="/">Categories</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="text-light" href="/">Profile</NavLink>
+              <NavLink className="text-light" href="/author/:username">Profile</NavLink>
             </NavItem>
             <NavItem>
               <NavLink className="text-light" href="/">Logout</NavLink>

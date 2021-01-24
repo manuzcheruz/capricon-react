@@ -86,7 +86,7 @@ class NewPosts extends Component {
             </div>
         }
         return (
-            <div style={{padding: '10px', height: '100%'}}>
+            <div style={{padding: '10px', height: '100%', paddingBottom: '300px'}}>
                 {form}
             </div>
         )

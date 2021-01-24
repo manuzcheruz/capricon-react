@@ -92,7 +92,7 @@ class Signup extends Component {
                 <h5 className="text-light text-center" style={{marginTop: '10px'}}>or</h5>
                 <div className="text-center" style={{paddingTop: '10px'}}>
                     <Button onClick={this.onSwitchHandler} style={{width: '100%', backgroundColor: 'rgba(126,203,244,1)', borderRadius: '8px'}}>
-                        {this.props.isSignInForm ? 'Sign Up' : 'Login'}
+                        {this.props.isSignInForm ? 'Login' : 'Sign Up'}
                     </Button>
                 </div>
             </div>

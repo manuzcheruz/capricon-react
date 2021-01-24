@@ -25,7 +25,7 @@ class CategoryPage extends Component {
 
         let category = this.props.category.map(item => {
                 return (
-                    <div>
+                    <div style={{backgroundColor: '#0A2E42'}}>
                         <div>
                             <Card inverse key={item.id} style={{marginLeft: '0px', height: '100%', width: '100%', backgroundColor: '#092e42'}}>
                                 <CardImg width="100%" src={item.thumbnail} alt="Card image cap"/>
